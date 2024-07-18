@@ -31,7 +31,7 @@ export default function AdminMenu() {
             <InventoryIcon />
             <span> Quản lý sản phẩm</span>
           </NavLink>
-          <NavLink className="link" to="/">
+          <NavLink className="link" to="/admin/user">
           <PersonIcon/>
             <span> Quản lý người dùng</span>
           </NavLink>

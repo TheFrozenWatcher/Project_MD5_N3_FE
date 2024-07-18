@@ -10,9 +10,13 @@ export default function AdminIndex() {
     <>
     <div className="ra-admin-layout">
       <Menu />
-      <div className="right">
+      <div className="right ">
+        <div className='flex'>
         <AdminMenu/>
+        <div className="flex-1 mt-[20vh]">
         <Outlet />
+        </div>
+        </div>
         <Footer/>
       </div>
     </div>
