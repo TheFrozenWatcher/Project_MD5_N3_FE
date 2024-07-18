@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { FAILED, IDLE, PENDING, SUCCESS } from "../../constants/status";
 import { getAllUsers } from "../../api/userAPI";
 
-const userSlice = createSlice({
+const usersSlice = createSlice({
     name: "user",
     initialState: {
       loading: [IDLE],
@@ -17,7 +17,6 @@ const userSlice = createSlice({
       });
   
       builder.addCase(getAllUsers.fulfilled, (state, action) => {
-        console.log(action);
         state.data = action.payload;
         state.loading =[SUCCESS];
       });
@@ -27,4 +26,4 @@ const userSlice = createSlice({
       });
     },
   });
-  export default userSlice.reducer;
+  export default usersSlice.reducer;
