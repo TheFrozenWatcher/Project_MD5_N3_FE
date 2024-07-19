@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { FAILED, IDLE, PENDING, SUCCESS } from "../../constants/status";
-import { getAllUsers } from "../../api/userAPI";
+import { getAllUsers } from "../../services/adminService";
+
 
 const usersSlice = createSlice({
     name: "user",
