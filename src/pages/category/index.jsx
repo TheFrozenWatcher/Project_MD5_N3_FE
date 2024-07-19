@@ -1,22 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchAllCategories,
-  deleteCategoryById,
-  createCategory,
-  updateCategory,
-} from "../../redux/slices/categorySlice"; // Update the import path
 import NewCategoryForm from "../../components/category/NewCategoryForm";
 import UpdateCategoryForm from "../../components/category/UpdateCategoryForm";
 import DeleteCategoryForm from "../../components/category/DeleteCategoryForm"; // Add import for DeleteCategoryForm
+import {
+  createCategory,
+  deleteCategoryById,
+  fetchAllCategories,
+  updateCategory,
+} from "../../services/categoryService";
 
 export default function AdminCategoryIndex() {
   const dispatch = useDispatch();
-  const {
-    data: categories,
-    loading,
-    error,
-  } = useSelector((state) => state.category);
+  const { data: categories, loading, error } = useSelector((state) => state.category);
   const [showForm, setShowForm] = useState(false);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false); // State for showing delete modal

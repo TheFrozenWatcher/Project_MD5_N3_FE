@@ -1,12 +1,12 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { deleteCategory } from "../../services/categoryService";
+import { deleteCategoryById } from "../../services/categoryService";
 
 export default function DeleteCategoryForm({ categoryId, onClose }) {
   const dispatch = useDispatch();
 
   const handleDelete = () => {
-    dispatch(deleteCategory(categoryId));
+    dispatch(deleteCategoryById(categoryId));
     onClose();
   };
 
