@@ -83,8 +83,9 @@ export default function UpdateCategoryForm({ categoryId, onClose }) {
       const formData = new FormData();
       formData.append("categoryName", category.categoryName);
       formData.append("description", category.description);
+      formData.append("image",category.image);
       if (category.imageFile) {
-        formData.append("image", category.imageFile);
+        formData.append("imageFile", category.imageFile);
       }
 
       dispatch(updateCategory({ categoryId, formData }));
@@ -143,7 +144,11 @@ export default function UpdateCategoryForm({ categoryId, onClose }) {
             Image
           </label>
           {category.image && !category.imageFile && (
-            <img src={category.image} alt="Current" className="mt-2 w-auto h-40 rounded-md " />
+            <img
+              src={category.image}
+              alt="Current"
+              className="mt-2 w-auto h-40 rounded-md "
+            />
           )}
           <input
             type="file"

@@ -7,12 +7,12 @@ export default function NewCategoryForm({ onClose }) {
   const [category, setCategory] = useState({
     categoryName: "",
     description: "",
-    image: "",
+    imageFile: "",
   });
   const [errors, setErrors] = useState({
     categoryName: "",
     description: "",
-    image: "",
+    imageFile: "",
   });
 
   const handleChange = (e) => {
@@ -43,7 +43,7 @@ export default function NewCategoryForm({ onClose }) {
 
     // Validate inputs
     let formIsValid = true;
-    const { categoryName, description, image } = category;
+    const { categoryName, description, imageFile } = category;
 
     if (!categoryName) {
       setErrors((prevErrors) => ({
@@ -61,10 +61,10 @@ export default function NewCategoryForm({ onClose }) {
       formIsValid = false;
     }
 
-    if (!image) {
+    if (!imageFile) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        image: "Image cannot be empty",
+        imageFile: "Image cannot be empty",
       }));
       formIsValid = false;
     }
@@ -117,23 +117,23 @@ export default function NewCategoryForm({ onClose }) {
         </div>
         <div className="mb-4">
           <label
-            htmlFor="image"
+            htmlFor="imageFile"
             className="block text-sm font-medium text-gray-700"
           >
             Image
           </label>
           <input
             type="file"
-            name="image"
+            name="imageFile"
             onChange={handleChange}
             className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
           />
-          {errors.image && (
+          {errors.imageFile && (
             <p className="text-red-500 text-xs mt-1">{errors.image}</p>
           )}
-          {category.image && (
+          {category.imageFile && (
             <img
-              src={URL.createObjectURL(category.image)}
+              src={URL.createObjectURL(category.imageFile)}
               alt="Preview"
               className="mt-2 w-auto h-40 rounded-md"
             />

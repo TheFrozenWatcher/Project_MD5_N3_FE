@@ -3,6 +3,7 @@ import LayoutIndex from "../../layouts";
 import AdminCategoryIndex from "../../pages/category";
 import AdminIndex from "../../pages/admin";
 import User from "../../pages/admin/User";
+import AdminProductIndex from "../../pages/product";
 
 const privateRoutes = [
   {
@@ -17,6 +18,10 @@ const privateRoutes = [
         path: "user",
         element:<User />,
       },
+      {
+        path:"product",
+        element:<AdminProductIndex/>,
+      }
     ],
   },
   {
@@ -24,5 +29,4 @@ const privateRoutes = [
     element: <PrivateRoute element={<LayoutIndex />} />,
   }
 ];
-
-export default privateRoutes;
+  export default privateRoutes;
