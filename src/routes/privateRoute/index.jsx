@@ -5,22 +5,24 @@ import AdminIndex from "../../pages/admin";
 import User from "../../pages/admin/User";
 
 const privateRoutes = [
-    {
-      path: "/admin",
-      element: <PrivateRoute element={<AdminIndex />} />,
-      children: [
-        {path:"category",
-          element:<AdminCategoryIndex/>
-        }
-       
-       {
+  {
+    path: "/admin",
+    element: <PrivateRoute element={<AdminIndex />} />,
+    children: [
+      {
+        path: "category",
+        element: <AdminCategoryIndex />,
+      },
+      {
         path: "user",
-        element: <PrivateRoute element={<User/>}/>
-       }
-      ],
-      path: "home",
-      element: <PrivateRoute element={<LayoutIndex/>} />,
-    },
-  ];
-  
-  export default privateRoutes;
+        element:<User />,
+      },
+    ],
+  },
+  {
+    path: "/home",
+    element: <PrivateRoute element={<LayoutIndex />} />,
+  }
+];
+
+export default privateRoutes;
