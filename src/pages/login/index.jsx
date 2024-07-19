@@ -1,96 +1,238 @@
-import { Button, Input, notification } from "antd";
+import React, { useState } from "react";
+import "./index";
 import "./index.scss";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { login } from "../../services/authService";
+import { Button, styled, TextField } from "@mui/material";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import axios from "axios";
+import { formAxios } from "../../api";
+import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-
 export default function Login() {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
+  const VisuallyHiddenInput = styled("input")({
+    clip: "rect(0 0 0 0)",
+    clipPath: "inset(50%)",
+    height: 1,
+    overflow: "hidden",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    whiteSpace: "nowrap",
+    width: 1,
   });
-
-  const handleChange = (e) => {
-    const { value, name } = e.target;
-
-    setUser({
-      ...user,
-      [name]: value,
-    });
+  const [formRegister, setFormRegister] = useState({
+    Password: "",
+    Username: "",
+  });
+  const [error, setError] = useState({
+    Password: "",
+    Username: "",
+  });
+  const navigate = useNavigate();
+  const handleChangeForm = (e) => {
+    const { name, value } = e.target;
+    setFormRegister({ ...formRegister, [name]: value });
+    if (value !== "") {
+      setError({ ...error, [name]: "" });
+    } else {
+      setError({ ...error, [name]: name + " must be not empty" });
+    }
+    console.log(formRegister);
   };
-
-  const handleSubmit = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-
-    // Gọi API đăng nhập tài khoản
-    dispatch(
-      login({
-        email: user.email,
-        password: user.password,
-      })
-    )
-      .unwrap()
-      .then((response) => {
-        const roles = response?.data?.roles;
-        if (roles.some((role) => role === "ADMIN")) {
-          navigate("/admin");
-        } else if (roles.some((role) => role === "MODERATOR")){
-          navigate("/moderator");
-        } else {
-            navigate("/")
-        }
-
-        notification.success({
-          message: "Thành công",
-          description: "Đăng nhập thành công",
-        });
-      })
-      .catch(() => {
-        notification.error({
-          message: "Thất bại",
-          description: "Đăng nhập thất bại.",
-        });
-      });
+    if (formRegister.Username !== "" && formRegister.Password !== "") {
+      await axios
+        .post("http://localhost:8080/api/v1/auth/sign-in", {username: formRegister.Username, password: formRegister.Password})
+        .then((resp) =>
+          Swal.fire({
+            title: "Login Success!",
+            icon: "success",
+          }).then(() => navigate("/home"))
+        )
+        .catch((err) =>
+          Swal.fire({
+            icon: "error",
+            title: "Sign In Failed",
+            text: Object.values(err.response.data.content).join(""),
+          })
+        );
+    } else {
+      if (!formRegister.Email) {
+        setError((prev) => ({ ...prev, email: "Email must not be empty" }));
+      }
+      if (!formRegister.Password) {
+        setError((prev) => ({
+          ...prev,
+          password: "Password must not be empty",
+        }));
+      }
+    }
   };
 
   return (
     <>
-      <div className="ra-login-container">
-        <form className="form" onSubmit={handleSubmit}>
-          <h3 className="heading">Đăng nhập tài khoản</h3>
+      <header>
+        <div className="top-banner">
+          Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!{" "}
+          <a href="#">ShopNow</a>
+        </div>
+        <nav>
+          <div className="logo">Exclusive</div>
+          <ul>
+            <li>
+              <a href="#">Home</a>
+            </li>
+            <li>
+              <a href="#">Contact</a>
+            </li>
+            <li>
+              <a href="#">About</a>
+            </li>
+            <li>
+              <a href="#">Sign Up</a>
+            </li>
+          </ul>
+          <div className="search-bar">
+            <input type="text" placeholder="What are you looking for?" />
+          </div>
+        </nav>
+      </header>
+      <main>
+        <div className="signup-container">
+          <div className="image-section">
+            <img
+              src="https://via.placeholder.com/400x400.png?text=Shopping"
+              alt="Shopping"
+            />
+          </div>
+          <div className="form-section">
+            <h2>Sign In</h2>
+            <form onSubmit={handleRegister}>
+              <TextField
+                error={error.Username}
+                label={error.Username}
+                onChange={handleChangeForm}
+                type="text"
+                placeholder="UserName"
+                name="Username"
+              />
+              <TextField
+                error={error.Password}
+                label={error.Password}
+                onChange={handleChangeForm}
+                type="password"
+                placeholder="Password"
+                name="Password"
+              />
 
-          <div className="form-group">
-            <label htmlFor="" className="form-label">
-              Email
-            </label>
-            <Input
-              onChange={handleChange}
-              name="email"
-              className="form-input"
-            />
-            {/* <p className="error-message">Email không để trống</p> */}
+              <button type="submit">Sign in</button>
+              <button type="button" className="google-signup">
+                Sign in with Google
+              </button>
+            </form>
+            <p>
+              Haven't have an account? <a href="#">Sign up</a>
+            </p>
           </div>
-          <div className="form-group">
-            <label htmlFor="" className="form-label">
-              Mật khẩu
-            </label>
-            <Input
-              onChange={handleChange}
-              name="password"
-              className="form-input"
-            />
-            {/* <p className="error-message">Mật khẩu không để trống</p> */}
+        </div>
+      </main>
+      <footer>
+        <div className="footer-content">
+          <div className="subscribe">
+            <h3>Subscribe</h3>
+            <p>Get 10% off your first order</p>
+            <input type="email" placeholder="Enter your email" />
           </div>
-          <div className="button-login">
-            <Button htmlType="submit" type="primary">
-              Đăng nhập
-            </Button>
+          <div className="support">
+            <h3>Support</h3>
+            <p>111 Bijoy sarani, Dhaka, DH 1515, Bangladesh</p>
+            <p>Email: exclusive@gmail.com</p>
+            <p>Phone: +88015-88888-9999</p>
           </div>
-        </form>
-      </div>
+          <div className="account">
+            <h3>Account</h3>
+            <ul>
+              <li>
+                <a href="#">My Account</a>
+              </li>
+              <li>
+                <a href="#">Login / Register</a>
+              </li>
+              <li>
+                <a href="#">Cart</a>
+              </li>
+              <li>
+                <a href="#">Wishlist</a>
+              </li>
+            </ul>
+          </div>
+          <div className="quick-links">
+            <h3>Quick Link</h3>
+            <ul>
+              <li>
+                <a href="#">Privacy Policy</a>
+              </li>
+              <li>
+                <a href="#">Terms Of Use</a>
+              </li>
+              <li>
+                <a href="#">FAQ</a>
+              </li>
+              <li>
+                <a href="#">Contact</a>
+              </li>
+            </ul>
+          </div>
+          <div className="download-app">
+            <h3>Download App</h3>
+            <p>Save $3 with App New User Only</p>
+            <div className="app-links">
+              <a href="https://play.google.com/store/apps">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+                  alt="Google Play"
+                />
+              </a>
+              <a href="https://www.apple.com/app-store/">
+                <img
+                  src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
+                  alt="App Store"
+                />
+              </a>
+            </div>
+            <div className="social-links">
+              <a href="https://www.facebook.com">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
+                  alt="Facebook"
+                  width={30}
+                />
+              </a>
+              <a href="https://www.twitter.com">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/en/6/60/Twitter_Logo_as_of_2021.svg"
+                  alt="Twitter"
+                  width={30}
+                />
+              </a>
+              <a href="https://www.instagram.com">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png"
+                  alt="Instagram"
+                  width={30}
+                />
+              </a>
+              <a href="https://www.linkedin.com">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/0/01/LinkedIn_Logo.svg"
+                  alt="LinkedIn"
+                  width={30}
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </>
   );
 }
