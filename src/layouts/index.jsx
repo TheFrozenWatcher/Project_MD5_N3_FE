@@ -3,6 +3,8 @@ import Header from "./header";
 import Footer from "./footer";
 import Menu from "./menu";
 
+import SimpleSlider from "./banner";
+
 export default function LayoutIndex() {
   return (
     <>
