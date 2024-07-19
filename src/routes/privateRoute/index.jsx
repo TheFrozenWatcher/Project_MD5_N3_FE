@@ -13,6 +13,8 @@ const privateRoutes = [
         element: <PrivateRoute element={<User/>}/>
        }
       ],
+      path: "/home",
+      element: <PrivateRoute element={<LayoutIndex/>} />,
     },
   ];
   

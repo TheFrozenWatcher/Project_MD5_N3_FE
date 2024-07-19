@@ -8,10 +8,11 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { useDispatch, useSelector } from "react-redux";
-import { changeRole, changeStatus, getAllUsers } from "../../api/userAPI";
-import { Button, IconButton, TextField } from "@mui/material";
+
+import { Button, TextField } from "@mui/material";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
 import { useDebounce } from "rooks";
+import { changeRole, changeStatus, getAllUsers } from "../../services/adminService";
 const columns = [
   { id: "id", align: "center", label: "Id", minWidth: 50 },
   { id: "fullName", align: "center", label: "Name", minWidth: 100 },

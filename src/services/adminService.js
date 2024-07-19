@@ -1,7 +1,8 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import BASE_URL from ".";
+
 import { GET } from "../constants/httpMethod";
+import BASE_URL from "../api";
 
 export const getAllUsers = createAsyncThunk("users/getAllUsers",async ({page,size,search,direction})=>{
     const response = await BASE_URL[GET](`admin/user?page=${page}&size=${size}&search=${search}&direction=${direction}`);
