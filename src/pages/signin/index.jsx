@@ -62,7 +62,7 @@ const VisuallyHiddenInput = styled('input')({
       formData.append("avatar", avatar);
       console.log(formData);
       await formAxios
-        .post("auth/sign-in", formData)
+        .post("auth/sign-up", formData)
         .then((resp) => console.log(resp))
         .catch((err) => Swal.fire({
           icon: "error",
