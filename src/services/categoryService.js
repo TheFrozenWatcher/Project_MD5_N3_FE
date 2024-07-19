@@ -11,6 +11,7 @@ export const fetchAllCategories = createAsyncThunk(
     return response.data;
   }
 );
+// Delete
 
 export const deleteCategoryById = createAsyncThunk(
   "category/delete",
@@ -19,17 +20,15 @@ export const deleteCategoryById = createAsyncThunk(
     return id;
   }
 );
-
+// Add
 export const createCategory = createAsyncThunk(
   "category/add",
   async (category) => {
     const formData = new FormData();
     formData.append("categoryName", category.categoryName);
     formData.append("description", category.description);
-    formData.append("imageFile", category.image);
-    for (const value of formData.values()) {
-      console.log(value);
-    } 
+    formData.append("imageFile", category.imageFile);
+    
     const response = await BASE_URL[POST]('admin/category/add', formData, {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -38,25 +37,32 @@ export const createCategory = createAsyncThunk(
     return response.data;
   }
 );
+// Update
 
 export const updateCategory = createAsyncThunk(
   "category/update",
-  async ({ categoryId, category }) => {
-    const formData = new FormData();
-    formData.append("id", categoryId);
-    formData.append("categoryName", category.categoryName);
-    formData.append("description", category.description);
-    formData.append("image", category.image);
-    formData.append("imageFile", category.imageFile)
-
-    const response = await BASE_URL[PUT](`admin/category/${categoryId}/update`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    return response.data;
+  async ({ categoryId, formData }) => {
+    for (const value of formData.values()) {
+      console.log(value);
+    }
+    try {
+      const response = await BASE_URL[PUT](
+        "admin/category/"+categoryId+"/update",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error updating category:", error);
+      throw error;
+    }
   }
 );
+
 
 export const fetchCategoryById = createAsyncThunk(
   "category/fetchById",
