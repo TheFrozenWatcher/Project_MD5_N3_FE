@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import "./index";
 import "./index.scss";
 import { Button, styled, TextField } from "@mui/material";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import axios from "axios";
-import { formAxios } from "../../api";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { Cookies } from "react-cookie";
+
 export default function Login() {
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
@@ -19,52 +19,74 @@ export default function Login() {
     whiteSpace: "nowrap",
     width: 1,
   });
+
   const [formRegister, setFormRegister] = useState({
     Password: "",
     Username: "",
   });
+
   const [error, setError] = useState({
     Password: "",
     Username: "",
   });
+
   const navigate = useNavigate();
+
   const handleChangeForm = (e) => {
     const { name, value } = e.target;
     setFormRegister({ ...formRegister, [name]: value });
+
     if (value !== "") {
       setError({ ...error, [name]: "" });
     } else {
-      setError({ ...error, [name]: name + " must be not empty" });
+      setError({ ...error, [name]: `${name} must not be empty` });
     }
-    console.log(formRegister);
   };
+
   const handleRegister = async (e) => {
     e.preventDefault();
+
     if (formRegister.Username !== "" && formRegister.Password !== "") {
-      await axios
-        .post("http://localhost:8080/api/v1/auth/sign-in", {username: formRegister.Username, password: formRegister.Password})
-        .then((resp) =>
-          Swal.fire({
-            title: "Login Success!",
-            icon: "success",
-          }).then(() => navigate("/home"))
-        )
-        .catch((err) =>
-          Swal.fire({
-            icon: "error",
-            title: "Sign In Failed",
-            text: Object.values(err.response.data.content).join(""),
-          })
-        );
+      try {
+        const resp = await axios.post("http://localhost:8080/api/v1/auth/sign-in", {
+          username: formRegister.Username,
+          password: formRegister.Password,
+        });
+
+        Swal.fire({
+          title: "Login Success!",
+          icon: "success",
+        }).then(() => {
+          console.log(resp);
+          const users = resp.data.content;
+          const cookie = new Cookies();
+          cookie.set("accessToken", users.token, {
+            maxAge: 1 * 60,
+          });
+          cookie.set("type", "Bearer", { maxAge: 1 * 60 });
+          cookie.set("isLogin", true, { maxAge: 1 * 60 });
+          cookie.set("user", users, { maxAge: 1 * 60 });
+          localStorage.setItem("users", JSON.stringify(users));
+
+          const isAdmin = resp.data.content.authorities
+            .map((author) => author.authority)
+            .some((author) => author === "ADMIN");
+
+          isAdmin ? navigate("/admin") : navigate("/home");
+        });
+      } catch (err) {
+        Swal.fire({
+          icon: "error",
+          title: "Sign In Failed",
+          text: Object.values(err.response.data.content).join(""),
+        });
+      }
     } else {
-      if (!formRegister.Email) {
-        setError((prev) => ({ ...prev, email: "Email must not be empty" }));
+      if (!formRegister.Username) {
+        setError((prev) => ({ ...prev, Username: "Username must not be empty" }));
       }
       if (!formRegister.Password) {
-        setError((prev) => ({
-          ...prev,
-          password: "Password must not be empty",
-        }));
+        setError((prev) => ({ ...prev, Password: "Password must not be empty" }));
       }
     }
   };
@@ -74,7 +96,7 @@ export default function Login() {
       <header>
         <div className="top-banner">
           Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!{" "}
-          <a href="#">ShopNow</a>
+          <a href="#">Shop Now</a>
         </div>
         <nav>
           <div className="logo">Exclusive</div>
@@ -113,7 +135,7 @@ export default function Login() {
                 label={error.Username}
                 onChange={handleChangeForm}
                 type="text"
-                placeholder="UserName"
+                placeholder="Username"
                 name="Username"
               />
               <TextField

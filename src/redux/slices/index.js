@@ -3,6 +3,7 @@ import categorySlice from "./categorySlice";
 
 import usersSlice from "./userSlice";
 import productSlice from "./productSlice";
+import authSlice from "./authSlice";
 
 const reducers = combineReducers({
   auth: authSlice,
