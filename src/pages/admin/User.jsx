@@ -199,7 +199,7 @@ export default function User() {
                                   EDIT
                                 </Button>
                                 <Button
-                                  onClick={() => haandleDelete(row["id"])}
+                                  onClick={() => handleDelete(row["id"])}
                                   variant="outlined"
                                   color="error"
                                 >
