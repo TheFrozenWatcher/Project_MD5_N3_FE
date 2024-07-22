@@ -52,7 +52,7 @@ export default function AdminMenu() {
           <LocalShipping/>
             <span> Quản lý đơn hàng</span>
           </NavLink>
-          <NavLink className="link" to="/">
+          <NavLink className="link" to="/admin/banner">
           <ViewCarouselIcon />
             <span> Quản lý banner</span>
           </NavLink>
