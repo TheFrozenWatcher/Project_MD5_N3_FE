@@ -61,7 +61,9 @@ export default function CreateAccount() {
       formData.append("password", formRegister.Password);
       formData.append("username", formRegister.Username);
       formData.append("phone", formRegister.Phone);
-      formData.append("avatar", avatar);
+      if (avatar) {
+        formData.append("avatar", avatar);
+      }
       console.log(formData);
       await axios
         .post("auth/sign-up", formData)

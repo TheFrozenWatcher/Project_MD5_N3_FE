@@ -7,6 +7,7 @@ import AdminProductIndex from "../../pages/product";
 import UserIndex from "../../pages/home/Home";
 import CategoryWithProducts from "../../pages/home/ProductsByCategory";
 import UserDetail from "../../pages/userdetail";
+import Banner from "../../pages/admin/banner/Banner";
 
 const privateRoutes = [
   {
@@ -19,12 +20,16 @@ const privateRoutes = [
       },
       {
         path: "user",
-        element:<User />,
+        element: <PrivateRoute element={<User />} />,
       },
       {
-        path:"product",
-        element:<AdminProductIndex/>,
-      }
+        path: "product",
+        element: <PrivateRoute element={<AdminProductIndex />} />,
+      },
+      {
+        path: "banner",
+        element: <PrivateRoute element={<Banner />} />,
+      },
     ],
   },
   {
@@ -42,7 +47,9 @@ const privateRoutes = [
       
     ],
   },
-    element: <PrivateRoute element={<UserDetail/>}/>,
-  }
+    {
+    path: "/userdetail",
+       element: <PrivateRoute element={<UserDetail/>}/>,
+    }
 ];
-  export default privateRoutes;
+export default privateRoutes;

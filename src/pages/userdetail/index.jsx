@@ -9,8 +9,8 @@ import { Cookies } from "react-cookie";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useDispatch } from "react-redux";
 import { editUser } from "../../services/userService";
-import Footer from "./footer";
 import ModalChangePassword from "./modalChangePassword";
+import Footer from "../../layouts/footer";
 
 export default function UserDetail() {
   const cookie = new Cookies();

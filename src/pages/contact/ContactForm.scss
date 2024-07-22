@@ -1,0 +1,15 @@
+.contact-form-container {
+    .MuiTextField-root {
+      margin-bottom: 1rem;
+    }
+  
+    .MuiButtonBase-root {
+      background-color: #000;
+      color: #fff;
+  
+      &:hover {
+        background-color: #333;
+      }
+    }
+  }
+  
