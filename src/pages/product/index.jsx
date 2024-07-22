@@ -1,9 +1,8 @@
-// src/pages/admin/product/AdminProductIndex.jsx
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import NewProductForm from "../../components/product/NewProductForm";
 import UpdateProductForm from "../../components/product/UpdateProductForm";
-import DeleteProductForm from "../../components/product/DeleteProductForm"; // Add import for DeleteProductForm
+import DeleteProductForm from "../../components/product/DeleteProductForm";
 import {
   createProduct,
   deleteProductById,
@@ -13,16 +12,27 @@ import {
 
 export default function AdminProductIndex() {
   const dispatch = useDispatch();
-  const { products, loading, error } = useSelector((state) => state.product);
+  const { data: products, loading, error, totalPages } = useSelector(
+    (state) => state.product
+  );
+  
   const [showForm, setShowForm] = useState(false);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false); // State for showing delete modal
-  const [idToDelete, setIdToDelete] = useState(null); // State to store id of product to delete
-  const [idToUpdate, setIdToUpdate] = useState(null); // State to store id of product to update
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [idToDelete, setIdToDelete] = useState(null);
+  const [idToUpdate, setIdToUpdate] = useState(null);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+  const [keyword, setKeyword] = useState("");
+  const [sortBy, setSortBy] = useState("id");
+  const [sortDirection, setSortDirection] = useState("asc");
 
   useEffect(() => {
-    dispatch(fetchAllProducts());
-  }, [dispatch]);
+    dispatch(
+      fetchAllProducts({ keyword, page: currentPage, size: pageSize, sortBy, sortDirection })
+    );
+  }, [dispatch, keyword, currentPage, pageSize, sortBy, sortDirection]);
 
   const toggleForm = () => {
     setShowForm(!showForm);
@@ -57,15 +67,59 @@ export default function AdminProductIndex() {
     setShowUpdateForm(false);
   };
 
+  const handleSearchChange = (e) => {
+    setKeyword(e.target.value);
+    setCurrentPage(1);
+  };
+
+  const handleSortChange = (e) => {
+    setSortBy(e.target.value);
+  };
+
+  const handleSortDirectionChange = (e) => {
+    setSortDirection(e.target.value);
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <div className="p-6">
-      <div className="flex justify-end mb-4">
+      <div className="flex justify-between mb-4">
         <button
           onClick={toggleForm}
           className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
         >
           Add New Product
         </button>
+        <div className="flex space-x-2">
+          <input
+            type="text"
+            value={keyword}
+            onChange={handleSearchChange}
+            placeholder="Search..."
+            className="px-3 py-2 border border-gray-300 rounded"
+          />
+          <select
+            value={sortBy}
+            onChange={handleSortChange}
+            className="px-3 py-2 border border-gray-300 rounded"
+          >
+            <option value="id">ID</option>
+            <option value="productName">Name</option>
+            <option value="createdAt">Created at</option>
+            <option value="updatedAt">Updated at</option>
+          </select>
+          <select
+            value={sortDirection}
+            onChange={handleSortDirectionChange}
+            className="px-3 py-2 border border-gray-300 rounded"
+          >
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+          </select>
+        </div>
       </div>
 
       {showForm && (
@@ -138,21 +192,21 @@ export default function AdminProductIndex() {
                 Name
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Created at
+                Brand{" "}
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Description
+                Category
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Status
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th colSpan={2} className="px-6 py-3 center text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Actions
               </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {loading ? (
+            {loading === "loading" ? (
               <tr>
                 <td
                   colSpan="7"
@@ -176,10 +230,10 @@ export default function AdminProductIndex() {
                     {product.productName}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {product.createdAt}
+                    {product.brandName}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {product.description}
+                    {product.categoryName}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {product.status ? "On display" : "Not displayed"}
@@ -214,6 +268,27 @@ export default function AdminProductIndex() {
             )}
           </tbody>
         </table>
+      </div>
+
+      {/* Pagination controls */}
+      <div className="flex justify-between mt-4">
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage <= 1}
+          className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+        >
+          Previous
+        </button>
+        <span className="text-gray-700">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage >= totalPages}
+          className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+        >
+          Next
+        </button>
       </div>
     </div>
   );
