@@ -6,6 +6,7 @@ import User from "../../pages/admin/User";
 import AdminProductIndex from "../../pages/product";
 import UserIndex from "../../pages/home/Home";
 import CategoryWithProducts from "../../pages/home/ProductsByCategory";
+import UserDetail from "../../pages/userdetail";
 
 const privateRoutes = [
   {
@@ -41,5 +42,7 @@ const privateRoutes = [
       
     ],
   },
+    element: <PrivateRoute element={<UserDetail/>}/>,
+  }
 ];
   export default privateRoutes;

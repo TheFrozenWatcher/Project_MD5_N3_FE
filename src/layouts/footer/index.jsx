@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <footer id="footer" className="bg-gray-800 text-white py-8">
       <div className="container mx-auto">
-        <div className="footer__top grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="footer__top grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
           <div className="footer-top__box">
             <h3 className="text-lg font-semibold mb-4">EXTRAS</h3>
             <a href="#" className="block hover:text-gray-300">Brands</a>
@@ -68,10 +68,8 @@ const Footer = () => {
       </div>
       <div className="footer__bottom mt-8">
         <div className="footer-bottom__box text-center py-4">
-          {/* Add any footer bottom content here */}
         </div>
         <div className="footer-bottom__box text-center py-4">
-          {/* Add any footer bottom content here */}
         </div>
       </div>
     </footer>

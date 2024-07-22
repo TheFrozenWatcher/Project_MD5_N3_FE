@@ -9,10 +9,14 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Button, TextField } from "@mui/material";
+import { Avatar, Button, TextField } from "@mui/material";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
 import { useDebounce } from "rooks";
-import { changeRole, changeStatus, getAllUsers } from "../../services/adminService";
+import {
+  changeRole,
+  changeStatus,
+  getAllUsers,
+} from "../../services/adminService";
 const columns = [
   { id: "id", align: "center", label: "Id", minWidth: 50 },
   { id: "fullName", align: "center", label: "Name", minWidth: 100 },
@@ -195,7 +199,7 @@ export default function User() {
                                   EDIT
                                 </Button>
                                 <Button
-                                  onClick={() => haandleDelete(row["id"])}
+                                  onClick={() => handleDelete(row["id"])}
                                   variant="outlined"
                                   color="error"
                                 >
@@ -204,6 +208,14 @@ export default function User() {
                               </>
                             ) : column.id === "roles" ? (
                               value.map((role) => role.roleName).join(", ")
+                            ) : column.id === "avatar" ? (
+                              <div className="flex justify-center items-center">
+                                <Avatar
+                                  alt="Remy Sharp"
+                                  src={value}
+                                  sx={{ width: 56, height: 56 }}
+                                />
+                              </div>
                             ) : (
                               value
                             )}
