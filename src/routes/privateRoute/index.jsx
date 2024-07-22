@@ -4,6 +4,8 @@ import AdminCategoryIndex from "../../pages/category";
 import AdminIndex from "../../pages/admin";
 import User from "../../pages/admin/User";
 import AdminProductIndex from "../../pages/product";
+import UserIndex from "../../pages/home/Home";
+import CategoryWithProducts from "../../pages/home/ProductsByCategory";
 
 const privateRoutes = [
   {
@@ -27,6 +29,17 @@ const privateRoutes = [
   {
     path: "/home",
     element: <PrivateRoute element={<LayoutIndex />} />,
-  }
+  },
+  {
+    path: "/user",
+    element: <PrivateRoute element={<UserIndex />} />,
+    children: [
+      {
+        path: "category/:id",
+        element: <CategoryWithProducts />,
+      },
+      
+    ],
+  },
 ];
   export default privateRoutes;
