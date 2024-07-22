@@ -50,7 +50,9 @@ export default function CreateAccount() {
     if (
       formRegister.FullName !== "" &&
       formRegister.Email !== "" &&
-      formRegister.Password !== ""
+      formRegister.Password !== "" &&
+      formRegister.Phone !== "" &&
+      formRegister.Username !== ""
     ) {
       const formData = new FormData();
       console.log(formRegister);
