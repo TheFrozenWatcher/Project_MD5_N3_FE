@@ -52,28 +52,37 @@ export default function Login() {
           username: formRegister.Username,
           password: formRegister.Password,
         });
+        const users = resp.data.content;
+        console.log(users);
+ if (users.status) {
+  Swal.fire({
+    title: "Login Success!",
+    icon: "success",
+  }).then(() => {
+    console.log(resp);
+    const cookie = new Cookies();
+    cookie.set("accessToken", users.token, {
+      maxAge: 1 * 60*1000,
+    });
+    cookie.set("type", "Bearer", { maxAge: 1 * 60*1000 });
+    cookie.set("isLogin", true, { maxAge: 1 * 60*1000 });
+    cookie.set("user", users, { maxAge: 1 * 60*1000 });
+    console.log(cookie.get("user"));
+    localStorage.setItem("users", JSON.stringify(users));
 
-        Swal.fire({
-          title: "Login Success!",
-          icon: "success",
-        }).then(() => {
-          console.log(resp);
-          const users = resp.data.content;
-          const cookie = new Cookies();
-          cookie.set("accessToken", users.token, {
-            maxAge: 1 * 60,
-          });
-          cookie.set("type", "Bearer", { maxAge: 1 * 60 });
-          cookie.set("isLogin", true, { maxAge: 1 * 60 });
-          cookie.set("user", users, { maxAge: 1 * 60 });
-          localStorage.setItem("users", JSON.stringify(users));
+    const isAdmin = resp.data.content.authorities
+      .map((author) => author.authority)
+      .some((author) => author === "ADMIN");
 
-          const isAdmin = resp.data.content.authorities
-            .map((author) => author.authority)
-            .some((author) => author === "ADMIN");
-
-          isAdmin ? navigate("/admin") : navigate("/home");
-        });
+    isAdmin ? navigate("/admin") : navigate("/home");
+  });
+ } else{
+  Swal.fire({
+    icon: "error",
+    title: "Sign In Failed",
+    text: "Your account has been banned!",
+  });
+ }
       } catch (err) {
         Swal.fire({
           icon: "error",
