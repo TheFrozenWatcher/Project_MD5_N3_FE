@@ -3,14 +3,15 @@ import BASE_URL from "../api";
 import { DELETE, GET, POST, PUT } from "../constants/httpMethod";
 
 export const fetchAllProducts = createAsyncThunk(
-    "category/fetchAllProducts",
-    async () => {
-        const response = await BASE_URL[GET]('admin/product');
+    "product/fetchAllProducts",
+    async ({ keyword, page, size, sortBy, sortDirection }) => {
+        const response = await BASE_URL[GET]("/admin/product", {
+            params: { keyword, page, size, sortBy, sortDirection }
+        });
         console.log(response.data);
         return response.data;
     }
 );
-// Delete
 
 export const deleteProductById = createAsyncThunk(
     "product/delete",
@@ -19,44 +20,43 @@ export const deleteProductById = createAsyncThunk(
         return id;
     }
 );
-// Add
+
+export const fetchProductForm = createAsyncThunk(
+    "product/fetchForm",
+    async () => {
+        const response = await BASE_URL[GET]('admin/product/add');
+        return response.data;
+    }
+);
+
 export const createProduct = createAsyncThunk(
     "product/add",
     async (product) => {
         const formData = new FormData();
-        formData.append("categoryName", product.productName);
+        formData.append("productName", product.productName);
         formData.append("description", product.description);
-        formData.append("imageFile", product.imageFile);
+        if (product.imageFile) formData.append("imageFile", product.imageFile);
         formData.append("brandId", product.brandId);
-        formData.append("categoryId", product.categoryId);
-        formData.append("imageFileList", product.imageFileList);
 
+        formData.append("categoryId", product.categoryId);
+        product.imageFileList.forEach((file) => formData.append("imageFileList", file));
         const response = await BASE_URL[POST]('admin/product/add', formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
+            headers: { "Content-Type": "multipart/form-data" },
         });
         return response.data;
     }
 );
-// Update
 
 export const updateProduct = createAsyncThunk(
-    "category/update",
+    "product/update",
     async ({ productId, formData }) => {
-        for (const value of formData.values()) {
-            console.log(value);
-        }
         try {
             const response = await BASE_URL[PUT](
-                "admin/product/" + productId + "/update",
+                `admin/product/${productId}/update`,
                 formData,
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                }
+                { headers: { "Content-Type": "multipart/form-data" } }
             );
+           
             return response.data;
         } catch (error) {
             console.error("Error updating product:", error);
@@ -65,11 +65,11 @@ export const updateProduct = createAsyncThunk(
     }
 );
 
-
 export const fetchProductById = createAsyncThunk(
     "product/fetchById",
     async (id) => {
         const response = await BASE_URL[GET](`admin/product/${id}/update`);
+        console.log(response.data);
         return response.data;
     }
 );
