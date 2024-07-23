@@ -62,9 +62,6 @@ const columns = [
   },
 ];
 
-function createData(id, fullName, username, avatar, email, phone, point) {
-  return { id, fullName, username, avatar, email, phone, point };
-}
 
 export default function User() {
   const dispatch = useDispatch();

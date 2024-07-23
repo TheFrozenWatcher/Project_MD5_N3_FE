@@ -7,25 +7,17 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { useDispatch, useSelector } from "react-redux";
-
 import { Avatar, Button, TextField } from "@mui/material";
-import {
-  deleteBanner,
-  getAllBanners,
-} from "../../../services/adminService";
-import ModalAddBanner from "./ModalAddBanner";
-import ModalEditBanner from "./ModalEditBanner";
+import { getOrders } from "../../services/adminService";
 const columns = [
   { id: "id", align: "center", label: "Id", minWidth: 50 },
-  { id: "bannerName", align: "center", label: "Banner Name", minWidth: 100 },
+  { id: "user", align: "center", label: "User", minWidth: 100 },
   { id: "createdAt", align: "center", label: "Created At", minWidth: 100 },
-  { id: "image", align: "center", label: "Image", minWidth: 170 },
-  {
-    id: "description",
-    label: "Description",
-    minWidth: 100,
-    align: "center",
-  },
+  { id: "receiveAt", align: "center", label: "Received At", minWidth: 100 },
+  { id: "serialNumber", align: "center", label: "Serial Number", minWidth: 100 },
+  { id: "note", align: "center", label: "Note", minWidth: 170 },
+  { id: "totalPriceAfterCoupon", align: "center", label: "Total Price After Coupon", minWidth: 170 },
+  
   {
     id: "status",
     label: "Status",
@@ -40,44 +32,16 @@ const columns = [
   },
 ];
 
-
-
-export default function Banner() {
+export default function Orders() {
   const dispatch = useDispatch();
-  const { data, loading, error } = useSelector((state) => state.banner);
-  const [open, setOpen] = React.useState(false);
-  const [openFormEdit, setOpenFormEdit] = React.useState(false);
-  const [bannerEdit, setBannerEdit] = React.useState(null);
-  React.useEffect(() => {
-    console.log(open);
-    dispatch(getAllBanners());
-  }, [open,openFormEdit]);
-  console.log(data);
-  const handleDelete = (id) => {
-    if (confirm("Are you sure you want to Delete this banner?")) {
-      dispatch(deleteBanner(id))
-        .then(() => {
-          dispatch(getAllBanners());
-        })
-        .then(() => {
-          Swal.fire({
-            title: "Success",
-            text: "Delete banner successfully",
-            icon: "success",
-          });
-        });
-    }
-  };
-  const initEditBanner = (id) => {
-    setOpenFormEdit(true)
-    const banner = data.filter((b) => b.id === id)[0];
-    setBannerEdit(banner);
-  };
+  const { data, loading, error } = useSelector((state) => state.orders);
+  React.useEffect(()=> {
+        dispatch(getOrders())
+        console.log(data?.content);
+  },[])
   return (
     <>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
-        <ModalAddBanner setOpen={setOpen} open={open} />
-        <ModalEditBanner bannerEdit={bannerEdit} openFormEdit={openFormEdit} setOpenFormEdit={setOpenFormEdit}></ModalEditBanner>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
@@ -135,9 +99,7 @@ export default function Banner() {
                                   sx={{ width: 56, height: 56 }}
                                 />
                               </div>
-                            ) : (
-                              value
-                            )}
+                            ) : column.id === "user" ? value.fullName : value}
                           </TableCell>
                         );
                       })}

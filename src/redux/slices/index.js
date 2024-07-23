@@ -6,6 +6,7 @@ import productSlice from "./productSlice";
 import authSlice from "./authSlice";
 import bannerSlice from "./bannerSlice";
 import wishListSlice from "./wishListSlice";
+import orderSlice from "./orderSlice";
 
 const reducers = combineReducers({
   auth: authSlice,
@@ -13,7 +14,8 @@ const reducers = combineReducers({
   category: categorySlice,
   product: productSlice,
   banner: bannerSlice,
-  wishlist: wishListSlice
+  wishlist: wishListSlice,
+  orders: orderSlice,
 });
 
 export default reducers;
