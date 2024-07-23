@@ -9,6 +9,7 @@ import CategoryWithProducts from "../../pages/home/ProductsByCategory";
 import UserDetail from "../../pages/userdetail";
 import Banner from "../../pages/admin/banner/Banner";
 import Wishlist from "../../pages/wishlist";
+import Orders from "../../pages/admin/Orders";
 
 const privateRoutes = [
   {
@@ -31,6 +32,10 @@ const privateRoutes = [
         path: "banner",
         element: <PrivateRoute element={<Banner />} />,
       },
+      {
+        path: "orders",
+        element: <PrivateRoute element={<Orders/>}/>,
+      }
     ],
   },
   {

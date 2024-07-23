@@ -48,7 +48,7 @@ export default function AdminMenu() {
           <PersonIcon/>
             <span> Quản lý người dùng</span>
           </NavLink>
-          <NavLink className="link" to="/">
+          <NavLink className="link" to="/admin/orders">
           <LocalShipping/>
             <span> Quản lý đơn hàng</span>
           </NavLink>
