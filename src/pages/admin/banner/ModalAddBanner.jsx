@@ -31,17 +31,29 @@ const VisuallyHiddenInput = styled("input")({
   whiteSpace: "nowrap",
   width: 1,
 });
-export default function ModalAddBanner({ handleToggleModal, open }) {
+export default function ModalAddBanner({ setOpen, open }) {
   const dispatch = useDispatch();
   const [banner, setBanner] = React.useState({
     bannerName: "",
     description: "",
   });
+  const [showAvatar, setShowAvatar] = React.useState(null);
   const [error, setError] = React.useState("");
   const [image, setImage] = React.useState(null);
   const handleChangeImage = (e) => {
     setImage(e.target.files[0]);
+    encodeImageFileAsURL(e.target.files[0]);
   };
+
+
+  function encodeImageFileAsURL(file) {
+    var reader = new FileReader();
+    reader.onloadend = function () {
+      console.log("RESULT", reader.result);
+      setShowAvatar(reader.result);
+    };
+    reader.readAsDataURL(file);
+  }
   const handleChangeForm = (e) => {
     const { name, value } = e.target;
     setBanner({ ...banner, [name]: value });
@@ -77,6 +89,10 @@ export default function ModalAddBanner({ handleToggleModal, open }) {
           console.log(err);
         });
     }
+    }
+    const handleToggleModal = () => {
+      setOpen(!open)
+      setShowAvatar(null)
   };
   return (
     <div>
@@ -124,6 +140,7 @@ export default function ModalAddBanner({ handleToggleModal, open }) {
             <Button variant="contained" type="submit">
               Add
             </Button>
+            <img className="w-[732px] h-[719px]" src={showAvatar} />
           </form>
         </Box>
       </Modal>

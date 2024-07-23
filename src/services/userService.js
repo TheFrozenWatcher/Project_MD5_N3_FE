@@ -2,7 +2,6 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import BASE_URL from "../api";
 import { Cookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
 const cookie = new Cookies();
 const token = cookie.get("accessToken");
 
@@ -44,3 +43,27 @@ export const updatePassword = createAsyncThunk(
     }
   }
 );
+
+export const getWishlist = createAsyncThunk("user/getWishlist", async () => {
+  const response = await axios.get(
+    "http://localhost:8080/api/v1/user/wishlist",
+    {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+  return response.data;
+});
+
+export const deleteWishlist = createAsyncThunk("user/deleteWishlist", async (productId) => {
+        const response = await axios.delete(
+        `http://localhost:8080/api/v1/user/wishlist/${productId}`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      return response.data;
+})

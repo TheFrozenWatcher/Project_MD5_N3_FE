@@ -45,19 +45,32 @@ export default function ModalEditBanner({
     bannerName: "",
     description: "",
   });
+  const [showAvatar, setShowAvatar] = React.useState(null);
   const [error, setError] = React.useState("");
   const [image, setImage] = React.useState(null);
+
+  function encodeImageFileAsURL(file) {
+    var reader = new FileReader();
+    reader.onloadend = function () {
+      console.log("RESULT", reader.result);
+      setShowAvatar(reader.result);
+    };
+    reader.readAsDataURL(file);
+  }
+
   const handleChangeImage = (e) => {
     setImage(e.target.files[0]);
+    encodeImageFileAsURL(e.target.files[0]);
+
   };
   const handleChangeForm = (e) => {
-    console.log(banner);
     const { name, value } = e.target;
     setBanner({ ...banner, [name]: value });
-    if (name === "bannerName" && banner.bannerName !== "") {
-      setError("");
-    } else {
+    if (name === "bannerName" && value === "") {
       setError("Banner name must not be empty");
+    } else {
+      setError(""); 
+
     }
   };
   const handleEditBanner = (e) => {
@@ -89,6 +102,8 @@ export default function ModalEditBanner({
   };
   const handleToggleModal = () => {
     setOpenFormEdit(!openFormEdit);
+    setShowAvatar(null)
+  
   };
   return (
     <div>
@@ -135,6 +150,7 @@ export default function ModalEditBanner({
             <Button variant="contained" type="submit">
               Update
             </Button>
+            <img className="w-[732px] h-[719px]" src={showAvatar} />
           </form>
         </Box>
       </Modal>

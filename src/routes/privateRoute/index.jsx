@@ -8,6 +8,7 @@ import UserIndex from "../../pages/home/Home";
 import CategoryWithProducts from "../../pages/home/ProductsByCategory";
 import UserDetail from "../../pages/userdetail";
 import Banner from "../../pages/admin/banner/Banner";
+import Wishlist from "../../pages/wishlist";
 
 const privateRoutes = [
   {
@@ -44,12 +45,15 @@ const privateRoutes = [
         path: "category/:id",
         element: <CategoryWithProducts />,
       },
-      
     ],
   },
-    {
+  {
     path: "/userdetail",
-       element: <PrivateRoute element={<UserDetail/>}/>,
-    }
+    element: <PrivateRoute element={<UserDetail />} />,
+  },
+  {
+    path: "/wishlist",
+    element: <PrivateRoute element={<Wishlist/>}/>,
+  }
 ];
 export default privateRoutes;
