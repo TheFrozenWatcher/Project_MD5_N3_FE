@@ -66,10 +66,10 @@ export default function CreateAccount() {
       }
       console.log(formData);
       await axios
-        .post("auth/sign-up", formData)
+        .post("http://localhost:8080/api/v1/auth/sign-up", formData)
         .then((resp) =>
           Swal.fire({
-            title: "Login Success!",
+            title: "Sign up Success!",
             icon: "success",
           }).then(() => navigate("/login"))
         )
@@ -77,7 +77,7 @@ export default function CreateAccount() {
           Swal.fire({
             icon: "error",
             title: "Sign up Failed",
-            text: Object.values(err.response.data.content).join(", "),
+            text: Object.values(err?.response?.data?.content).join(", "),
           })
         );
     } else {

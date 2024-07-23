@@ -1,0 +1,45 @@
+.wishlist-container {
+width: 80%; 
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.wishlist-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.edit-icon {
+  margin-left: 10px;
+  color: #6b7280; 
+  cursor: pointer;
+}
+
+.wishlist-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td {
+    text-align: center;
+    padding: 16px;
+  }
+
+  th {
+    background-color: #f9fafb; 
+  }
+}
+
+td {
+  .MuiButton-containedPrimary {
+    background-color: #3b82f6; 
+    &:hover {
+      background-color: #2563eb; 
+    }
+  }
+}

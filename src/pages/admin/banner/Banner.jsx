@@ -56,10 +56,6 @@ export default function Banner() {
   const [open, setOpen] = React.useState(false);
   const [openFormEdit, setOpenFormEdit] = React.useState(false);
   const [bannerEdit, setBannerEdit] = React.useState(null);
-  const handleToggleModal = () => {
-    console.log("co vao");
-    setOpen(!open);
-  };
   React.useEffect(() => {
     console.log(open);
     dispatch(getAllBanners());
@@ -88,7 +84,7 @@ export default function Banner() {
   return (
     <>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
-        <ModalAddBanner handleToggleModal={handleToggleModal} open={open} />
+        <ModalAddBanner setOpen={setOpen} open={open} />
         <ModalEditBanner bannerEdit={bannerEdit} openFormEdit={openFormEdit} setOpenFormEdit={setOpenFormEdit}></ModalEditBanner>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
