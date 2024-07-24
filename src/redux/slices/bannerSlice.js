@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { FAILED, IDLE, PENDING, SUCCESS } from "../../constants/status";
-import { deleteBanner, getAllBanners } from "../../services/adminService";
+import {  deleteBanner, getAllBanners } from "../../services/adminService";
 
 
 const bannerSlice = createSlice({
@@ -28,6 +28,7 @@ const bannerSlice = createSlice({
       builder.addCase(deleteBanner.fulfilled, (state, action) => {
        state.data = state.data.filter(banner => banner!==action.payload);
       });
+    
     },
   });
   export default bannerSlice.reducer;
