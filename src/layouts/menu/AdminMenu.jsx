@@ -10,6 +10,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Cookies } from "react-cookie";
 import EventIcon from '@mui/icons-material/Event';
+import DiscountIcon from '@mui/icons-material/Discount';
 export default function AdminMenu() {
   const navigate = useNavigate();
   const cookie = new Cookies();
@@ -53,8 +54,12 @@ export default function AdminMenu() {
             <span> Quản lý đơn hàng</span>
           </NavLink>
           <NavLink className="link" to="/admin/coupon">
-          <EventIcon/>
+          <DiscountIcon/>
             <span> Quản lý Coupon</span>
+          </NavLink>
+          <NavLink className="link" to="/admin/event">
+          <EventIcon/>
+            <span> Quản lý Sự Kiên</span>
           </NavLink>
           <NavLink className="link" to="/admin/banner">
           <ViewCarouselIcon />

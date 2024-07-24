@@ -1,5 +1,5 @@
-import UserIndex from "../../pages/home/Home";
-import CategoryWithProducts from "../../pages/home/ProductsByCategory";
+
+
 
 import ContactForm from "../../pages/contact/ContactForm";
 import Login from "../../pages/login";

@@ -108,3 +108,39 @@ export const editCoupon = createAsyncThunk("admin/editCoupon", async (formEdit,t
   
   }
 })
+export const getEvents = createAsyncThunk("admin/getEvents", async () => {
+  const response = await BASE_URL[GET](`admin/event`);
+  return response.data;
+});
+
+export const addEvent = createAsyncThunk(
+  "admin/addEvent",
+  async (formAddEvent, thunkAPI) => {
+    try{
+        const response = await axios.post(
+        `http://localhost:8080/api/v1/admin/event`,
+        formAddEvent
+      );
+      return response.data;
+    } catch (error){
+        return thunkAPI.rejectWithValue(error.response.data.content);
+    }
+  }
+);
+export const deleteEvent = createAsyncThunk("admin/eventsdelete", async(id) => {
+    const response = await axios.delete(`http://localhost:8080/api/v1/admin/event/${id}`);
+    return response.data;
+})
+
+export const editEvent = createAsyncThunk("admin/editEvent", async (formEdit,thunkAPI) =>{
+  try{
+    const response = await axios.put(
+        `http://localhost:8080/api/v1/admin/event`,
+        formEdit
+      );
+      return response.data;
+    } catch (error){
+        return thunkAPI.rejectWithValue(error.response.data.content);
+  
+  }
+})
