@@ -12,6 +12,8 @@ import UserDetail from "../../pages/userdetail";
 import Banner from "../../pages/admin/banner/Banner";
 import Wishlist from "../../pages/wishlist";
 import Orders from "../../pages/admin/Orders";
+import Voucher from "../../pages/admin/coupon/Coupon";
+import Coupon from "../../pages/admin/coupon/Coupon";
 
 const privateRoutes = [
   {
@@ -36,8 +38,12 @@ const privateRoutes = [
       },
       {
         path: "orders",
-        element: <PrivateRoute element={<Orders/>}/>,
-      }
+        element: <PrivateRoute element={<Orders />} />,
+      },
+      {
+        path: "coupon",
+        element: <PrivateRoute element={<Coupon />} />,
+      },
     ],
   },
   {
@@ -71,7 +77,7 @@ const privateRoutes = [
   },
   {
     path: "/wishlist",
-    element: <PrivateRoute element={<Wishlist/>}/>,
-  }
+    element: <PrivateRoute element={<Wishlist />} />,
+  },
 ];
 export default privateRoutes;

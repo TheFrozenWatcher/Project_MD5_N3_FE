@@ -150,7 +150,7 @@ export default function ModalEditBanner({
             <Button variant="contained" type="submit">
               Update
             </Button>
-            <img className="w-[732px] h-[719px]" src={showAvatar} />
+            <img className="w-[732px] h-[719px]" src={showAvatar ? showAvatar : bannerEdit?.image} />
           </form>
         </Box>
       </Modal>

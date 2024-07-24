@@ -17,6 +17,7 @@ import {
   changeStatus,
   getAllUsers,
 } from "../../services/adminService";
+
 const columns = [
   { id: "id", align: "center", label: "Id", minWidth: 50 },
   { id: "fullName", align: "center", label: "Name", minWidth: 100 },
@@ -63,7 +64,13 @@ const columns = [
 ];
 
 
-export default function User() {
+export default function User() {    
+
+
+
+
+
+
   const dispatch = useDispatch();
   const { data, loading, error } = useSelector((state) => state.user);
   const [page, setPage] = React.useState(0);
@@ -126,6 +133,7 @@ export default function User() {
           fontSize="large"
           className="ml-[1.5vw] cursor-pointer"
         />
+          
         <div className="ml-auto">
           <TextField
             id="outlined-basic"

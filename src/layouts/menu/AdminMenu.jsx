@@ -9,7 +9,7 @@ import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Cookies } from "react-cookie";
-
+import EventIcon from '@mui/icons-material/Event';
 export default function AdminMenu() {
   const navigate = useNavigate();
   const cookie = new Cookies();
@@ -51,6 +51,10 @@ export default function AdminMenu() {
           <NavLink className="link" to="/admin/orders">
           <LocalShipping/>
             <span> Quản lý đơn hàng</span>
+          </NavLink>
+          <NavLink className="link" to="/admin/coupon">
+          <EventIcon/>
+            <span> Quản lý Coupon</span>
           </NavLink>
           <NavLink className="link" to="/admin/banner">
           <ViewCarouselIcon />
