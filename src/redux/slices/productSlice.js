@@ -6,7 +6,9 @@ import {
   fetchAllProducts,
   fetchProductForm,
   updateProduct,
-  fetchProductById
+  fetchProductById,
+  toggleWishlist,
+  selectProductById
 } from "../../services/productService";
 
 const ProductSlice = createSlice({
@@ -17,6 +19,7 @@ const ProductSlice = createSlice({
     error: null,
     brands: [],
     categories: [],
+    colors:[],
     totalPages: 1,
     currentProduct: null, // Holds the current product data
   },
@@ -51,6 +54,7 @@ const ProductSlice = createSlice({
         state.loading = status.SUCCESS;
         state.brands = action.payload.brandList;
         state.categories = action.payload.categoryList;
+        state.colors=action.payload.colorList;
       })
       .addCase(fetchProductForm.rejected, (state, action) => {
         state.loading = status.FAILED;
@@ -90,6 +94,35 @@ const ProductSlice = createSlice({
         state.currentProduct = action.payload;
       })
       .addCase(fetchProductById.rejected, (state, action) => {
+        state.loading = status.FAILED;
+        state.error = action.error.message;
+      })
+
+       // User selecting a product by ID
+       .addCase(selectProductById.pending, (state) => {
+        state.loading = status.PENDING;
+      })
+      .addCase(selectProductById.fulfilled, (state, action) => {
+        state.loading = status.SUCCESS;
+        state.currentProduct = action.payload;
+      })
+      .addCase(selectProductById.rejected, (state, action) => {
+        state.loading = status.FAILED;
+        state.error = action.error.message;
+      })
+      // Add/remove from wishlist
+      .addCase(toggleWishlist.pending, (state) => {
+        state.loading = status.PENDING;
+      })
+      .addCase(toggleWishlist.fulfilled, (state, action) => {
+        state.loading = status.SUCCESS;
+        const productId = action.meta.arg;
+        const product = state.data.find((product) => product.id === productId);
+        if (product) {
+          product.onWishlist = !product.onWishlist;
+        }
+      })
+      .addCase(toggleWishlist.rejected, (state, action) => {
         state.loading = status.FAILED;
         state.error = action.error.message;
       });

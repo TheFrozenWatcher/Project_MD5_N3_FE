@@ -5,7 +5,9 @@ import AdminIndex from "../../pages/admin";
 import User from "../../pages/admin/User";
 import AdminProductIndex from "../../pages/product";
 import UserIndex from "../../pages/home/Home";
-import CategoryWithProducts from "../../pages/home/ProductsByCategory";
+import UserProductIndex from "../../pages/product/UserIndex";
+import UserProductList from "../../components/product/ProductList";
+import UserProductDetail from "../../pages/product/Detail";
 import UserDetail from "../../pages/userdetail";
 import Banner from "../../pages/admin/banner/Banner";
 import Wishlist from "../../pages/wishlist";
@@ -47,11 +49,22 @@ const privateRoutes = [
     element: <PrivateRoute element={<UserIndex />} />,
     children: [
       {
-        path: "category/:id",
-        element: <CategoryWithProducts />,
+        path: "product",
+        element: <UserProductIndex />,
+        children: [
+          {
+            path: "",
+            element: <UserProductList />,
+          },
+          {
+            path: ":id", // Ensure the parameter name matches useParams()
+            element: <UserProductDetail />, // Add UserProductDetail route
+          },
+        ],
       },
     ],
   },
+
   {
     path: "/userdetail",
     element: <PrivateRoute element={<UserDetail />} />,
