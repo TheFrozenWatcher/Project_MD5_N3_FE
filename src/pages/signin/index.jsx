@@ -2,21 +2,21 @@ import React, { useState } from "react";
 import "./index";
 import "./index.scss";
 import { Button, styled, TextField } from "@mui/material";
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import axios from "axios";
 import { formAxios } from "../../api";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 export default function CreateAccount() {
-    
-const VisuallyHiddenInput = styled('input')({
-    clip: 'rect(0 0 0 0)',
-    clipPath: 'inset(50%)',
+  const VisuallyHiddenInput = styled("input")({
+    clip: "rect(0 0 0 0)",
+    clipPath: "inset(50%)",
     height: 1,
-    overflow: 'hidden',
-    position: 'absolute',
+    overflow: "hidden",
+    position: "absolute",
     bottom: 0,
     left: 0,
-    whiteSpace: 'nowrap',
+    whiteSpace: "nowrap",
     width: 1,
   });
   const [formRegister, setFormRegister] = useState({
@@ -34,7 +34,7 @@ const VisuallyHiddenInput = styled('input')({
     Username: "",
   });
   const [avatar, setAvatar] = useState(null);
-
+ const navigate = useNavigate()
   const handleChangeForm = (e) => {
     const { name, value } = e.target;
     setFormRegister({ ...formRegister, [name]: value });
@@ -50,10 +50,12 @@ const VisuallyHiddenInput = styled('input')({
     if (
       formRegister.FullName !== "" &&
       formRegister.Email !== "" &&
-      formRegister.Password !== ""
+      formRegister.Password !== "" &&
+      formRegister.Phone !== "" &&
+      formRegister.Username !== ""
     ) {
       const formData = new FormData();
-      console.log(formRegister)
+      console.log(formRegister);
       formData.append("fullName", formRegister.FullName);
       formData.append("email", formRegister.Email);
       formData.append("password", formRegister.Password);
@@ -61,14 +63,21 @@ const VisuallyHiddenInput = styled('input')({
       formData.append("phone", formRegister.Phone);
       formData.append("avatar", avatar);
       console.log(formData);
-      await formAxios
-        .post("auth/sign-up", formData)
-        .then((resp) => console.log(resp))
-        .catch((err) => Swal.fire({
-          icon: "error",
-          title: "Sign up Failed",
-          text: Object.values(err.response.data.content).join(", "),
-        }));
+      await axios
+        .post("http://localhost:8080/api/v1/auth/sign-up", formData)
+        .then((resp) =>
+          Swal.fire({
+            title: "Login Success!",
+            icon: "success",
+          }).then(() => navigate("/login"))
+        )
+        .catch((err) =>
+          Swal.fire({
+            icon: "error",
+            title: "Sign up Failed",
+            text: Object.values(err.response.data.content).join(", "),
+          })
+        );
     } else {
       if (!formRegister.FullName) {
         setError((prev) => ({
@@ -87,9 +96,9 @@ const VisuallyHiddenInput = styled('input')({
       }
     }
   };
-  const handleChangeAvatar = (e) =>{
+  const handleChangeAvatar = (e) => {
     setAvatar(e.target.files[0]);
-  }
+  };
   return (
     <>
       <header>
@@ -177,7 +186,10 @@ const VisuallyHiddenInput = styled('input')({
                 startIcon={<CloudUploadIcon />}
               >
                 Upload file
-                <VisuallyHiddenInput onChange={handleChangeAvatar} type="file" />
+                <VisuallyHiddenInput
+                  onChange={handleChangeAvatar}
+                  type="file"
+                />
               </Button>
               <button type="submit">Create Account</button>
               <button type="button" className="google-signup">

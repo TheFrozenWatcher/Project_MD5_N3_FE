@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import "./AdminMenu.scss";
 import CategoryIcon from "@mui/icons-material/Category";
 import InventoryIcon from "@mui/icons-material/Inventory";
@@ -7,8 +7,21 @@ import PersonIcon from '@mui/icons-material/Person';
 import { LocalShipping } from "@mui/icons-material";
 import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { Cookies } from "react-cookie";
+
 export default function AdminMenu() {
+  const navigate = useNavigate();
+  const cookie = new Cookies();
+  const handleLogOut = () => {
+    cookie.remove("type");
+    cookie.remove("user");
+    cookie.remove("accessToken")
+    cookie.set("isLogin",false)
+    navigate("/login")
+  }
   return (
+    
     <>
       <menu className="ra-admin-menu">
         <Link to="/admin" className="logo">
@@ -43,6 +56,10 @@ export default function AdminMenu() {
           <ViewCarouselIcon />
             <span> Quản lý banner</span>
           </NavLink>
+          <div className="link cursor-pointer" onClick={handleLogOut}>
+          <LogoutIcon />
+            <span> Đăng Xuất</span>
+          </div>
         </div>
       </menu>
     </>

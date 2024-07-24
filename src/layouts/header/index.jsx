@@ -1,6 +1,23 @@
+import { Button } from "@mui/material";
 import React from "react";
+import { Cookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const cookie = new Cookies();
+  const isLogin = cookie.get('isLogin');
+  const navigate = useNavigate()
+  // const isLogin = true;
+  const handleLogOut = () => {
+    cookie.remove("type");
+    cookie.remove("user");
+    cookie.remove("accessToken")
+    cookie.set("isLogin",false)
+    navigate("/login")
+  }
+  const handleLogIn = () => {
+    navigate("/login")
+  }
   return (
     <header id="header" className="bg-white pl-4 pr-4">
       <div className="container mx-auto">
@@ -83,6 +100,7 @@ const Header = () => {
                 </span>
               </a>
             </div>
+            {isLogin ? <Button onClick={handleLogOut} variant="contained">Log Out</Button> :<Button onClick={handleLogIn} variant="contained">Log Out</Button>}
           </div>
         </nav>
       </div>
