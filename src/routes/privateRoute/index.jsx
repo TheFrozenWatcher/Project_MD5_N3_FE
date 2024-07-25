@@ -12,8 +12,8 @@ import UserDetail from "../../pages/userdetail";
 import Banner from "../../pages/admin/banner/Banner";
 import Wishlist from "../../pages/wishlist";
 import Orders from "../../pages/admin/Orders";
-import Voucher from "../../pages/admin/coupon/Coupon";
 import Coupon from "../../pages/admin/coupon/Coupon";
+import Event from "../../pages/admin/event/Event";
 
 const privateRoutes = [
   {
@@ -43,6 +43,10 @@ const privateRoutes = [
       {
         path: "coupon",
         element: <PrivateRoute element={<Coupon />} />,
+      },
+      {
+        path: "event",
+        element: <PrivateRoute element={<Event />} />,
       },
     ],
   },

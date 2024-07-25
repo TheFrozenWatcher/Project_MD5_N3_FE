@@ -10,6 +10,7 @@ import wishListSlice from "./wishListSlice";
 import orderSlice from "./orderSlice";
 import coupon from "./couponSlice";
 import couponSlice from "./couponSlice";
+import eventSlice from "./eventSlice";
 
 const reducers = combineReducers({
   auth: authSlice,
@@ -21,6 +22,7 @@ const reducers = combineReducers({
   wishlist: wishListSlice,
   orders: orderSlice,
   coupon: couponSlice,
+  event: eventSlice,
 });
 
 export default reducers;
