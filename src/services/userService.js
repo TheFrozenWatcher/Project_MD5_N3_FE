@@ -6,6 +6,60 @@ import { useNavigate } from "react-router-dom";
 const cookie = new Cookies();
 const token = cookie.get("accessToken");
 
+export const createOrder = createAsyncThunk("user/createOrder", async ({couponCode, code, addressId},thunkAPI) => {
+   try {
+    const response = await axios.post(
+      "http://localhost:8080/api/v1/user/payment",
+      {couponCode, code, addressId},
+      {
+        params: {couponCode, code, addressId},
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    return response.data;
+   } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+   }
+})
+
+
+export const getTotalPrice = createAsyncThunk("user/getTotalPrice", async (couponCode,thunkAPI) => {
+   try {
+    const response = await axios.get(
+      "http://localhost:8080/api/v1/user/payment/totalPrice",
+      {
+        params: {couponCode},
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    return response.data;
+   } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+   }
+})
+
+export const getUserAddress = createAsyncThunk("user/getUserAddress", async (thunkAPI) => {
+   try {
+    const response = await axios.get(
+      "http://localhost:8080/api/v1/user/payment/address",
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    return response.data;
+   } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+   }
+})
+
+
+
 export const editUser = createAsyncThunk("user/edituser", async (userEdit) => {
   try {
     const response = await axios.put(

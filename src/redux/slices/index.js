@@ -7,8 +7,6 @@ import authSlice from "./authSlice";
 import commentSlice from "./commentSlice";
 import bannerSlice from "./bannerSlice";
 import wishListSlice from "./wishListSlice";
-import orderSlice from "./orderSlice";
-import coupon from "./couponSlice";
 import couponSlice from "./couponSlice";
 import eventSlice from "./eventSlice";
 
@@ -20,7 +18,6 @@ const reducers = combineReducers({
   comment:commentSlice,
   banner: bannerSlice,
   wishlist: wishListSlice,
-  orders: orderSlice,
   coupon: couponSlice,
   event: eventSlice,
 });
