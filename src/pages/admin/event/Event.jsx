@@ -20,7 +20,6 @@ const columns = [
   { id: "id", align: "center", label: "Id", minWidth: 50 },
   { id: "discount", align: "center", label: "Discount", minWidth: 100 },
   { id: "startDate", align: "center", label: "Start date", minWidth: 100 },
-  { id: "endDate", align: "center", label: "End date", minWidth: 100 },
   {
     id: "status",
     label: "Status",

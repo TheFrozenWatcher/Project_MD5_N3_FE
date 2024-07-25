@@ -36,12 +36,10 @@ export default function ModalAddEvent({ setOpen, open }) {
   const dispatch = useDispatch();
   const [event, setEvent] = React.useState({
     startDate: null,
-    endDate: null,
     title: "",
   });
   const [error, setError] = React.useState({
     startDate: null,
-    endDate: null,
     title: "",
   });
 
@@ -54,15 +52,6 @@ export default function ModalAddEvent({ setOpen, open }) {
     } else {
       setError({ ...error, [name]: "" });
     } 
-    if(name==="endDate") {
-      const startDate = new Date(event.startDate);
-      const endDate = new Date(value);
-      if(startDate.getTime() - endDate.getTime() > 0) {
-        setError({...error, endDate: "End date must be later than start date" });
-      } else {
-        setError({...error, endDate: "" });
-      }
-    }
     if(name==="startDate") {
       const startDate = new Date(value);
       console.log(startDate);
@@ -144,16 +133,6 @@ export default function ModalAddEvent({ setOpen, open }) {
                 type="date"
                 helperText={error.startDate ? error.startDate : ""}
                 name="startDate"
-              />{" "}
-            </div>
-            <div>
-              <label>End date: </label>
-              <TextField
-                error={error.endDate}
-                onChange={handleChangeForm}
-                type="date"
-                helperText={error.endDate ? error.endDate : ""}
-                name="endDate"
               />{" "}
             </div>
             <TextField

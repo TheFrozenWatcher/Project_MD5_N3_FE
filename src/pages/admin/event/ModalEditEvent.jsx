@@ -41,7 +41,6 @@ export default function ModalEditEvent({
   const [event, setEvent] = React.useState({
     discount: "",
     startDate: "",
-    endDate: "",
     title: "",
   });
 
@@ -49,7 +48,6 @@ export default function ModalEditEvent({
   const [error, setError] = React.useState({
     discount: "",
     startDate: "",
-    endDate: "",
     title: "",
   });
 
@@ -61,19 +59,6 @@ export default function ModalEditEvent({
       setError({ ...error, [name]: name + " required " });
     } else {
       setError({ ...error, [name]: "" });
-    }
-    if (name === "endDate") {
-      const startDate = new Date(event.startDate);
-      const startDateEdit = new Date(eventEdit?.startDate);
-      const endDate = new Date(value);
-      if ((startDate.getTime() - endDate.getTime() > 0) || (startDateEdit.getTime() - endDate.getTime() > 0) ) {
-        setError({
-          ...error,
-          endDate: "End date must be later than start date",
-        });
-      } else {
-        setError({ ...error, endDate: "" });
-      }
     }
     if (name === "startDate") {
       const startDate = new Date(value);
@@ -169,17 +154,6 @@ export default function ModalEditEvent({
                 helperText={error.startDate ? error.startDate : ""}
                 defaultValue={eventEdit?.startDate}
                 name="startDate"
-              />{" "}
-            </div>
-            <div>
-              <label>End date: </label>
-              <TextField
-                error={error.endDate}
-                onChange={handleChangeForm}
-                type="date"
-                helperText={error.endDate ? error.endDate : ""}
-                defaultValue={eventEdit?.endDate}
-                name="endDate"
               />{" "}
             </div>
             <TextField
