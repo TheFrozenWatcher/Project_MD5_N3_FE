@@ -5,7 +5,7 @@ import {
   toggleWishlist,
 } from "../../services/productService";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 export default function UserProductList() {
   const dispatch = useDispatch();
@@ -126,11 +126,13 @@ export default function UserProductList() {
                   className="h-10 w-10 object-cover rounded-full"
                 />
               </div>
+              <Link to={`${product.id}`}>
               <div className="text-lg font-semibold">{product.productName}</div>
               <div className="text-sm text-gray-500">{product.brandName}</div>
               <div className="text-sm text-gray-500">
                 {product.categoryName}
               </div>
+              </Link>
             </div>
           ))
         ) : (
