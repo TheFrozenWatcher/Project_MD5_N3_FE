@@ -16,6 +16,7 @@ import Event from "../../pages/admin/event/Event";
 import CartList from "../../components/cart/CartList";
 import PaymentPage from "../../pages/payment";
 import Orders from "../../pages/admin/Orders";
+import PaymentPage from "../../pages/payment";
 
 const privateRoutes = [
   {
@@ -82,6 +83,8 @@ const privateRoutes = [
         path: "payment",
         element: <PaymentPage />,
       },
+
+       
     ],
   },
   {
