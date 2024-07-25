@@ -14,6 +14,7 @@ import Wishlist from "../../pages/wishlist";
 import Coupon from "../../pages/admin/coupon/Coupon";
 import Event from "../../pages/admin/event/Event";
 import PaymentPage from "../../pages/payment";
+import PurchaseHistory from "../../pages/payhistory";
 
 const privateRoutes = [
   {
@@ -71,6 +72,10 @@ const privateRoutes = [
       {
         path: "payment",
         element: <PrivateRoute element={<PaymentPage/>}/>,
+      },
+      {
+        path: "payhistory",
+        element: <PrivateRoute element={<PurchaseHistory/>}/>,
       }
     ],
   },
