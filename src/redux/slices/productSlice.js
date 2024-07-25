@@ -33,6 +33,7 @@ const ProductSlice = createSlice({
       .addCase(fetchAllProducts.fulfilled, (state, action) => {
         state.loading = status.SUCCESS;
         state.data = action.payload.products || []; // Ensure it's an array
+        console.log(state.data);
         state.totalPages = action.payload.totalPages || 1;
         state.currentPage = action.payload.currentPage || 1;
       })

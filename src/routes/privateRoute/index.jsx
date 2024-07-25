@@ -11,10 +11,11 @@ import UserProductDetail from "../../pages/product/Detail";
 import UserDetail from "../../pages/userdetail";
 import Banner from "../../pages/admin/banner/Banner";
 import Wishlist from "../../pages/wishlist";
-import Orders from "../../pages/admin/Orders";
 import Coupon from "../../pages/admin/coupon/Coupon";
 import Event from "../../pages/admin/event/Event";
 import CartList from "../../components/cart/CartList";
+import PaymentPage from "../../pages/payment";
+import Orders from "../../pages/admin/Orders";
 
 const privateRoutes = [
   {
@@ -27,33 +28,33 @@ const privateRoutes = [
       },
       {
         path: "user",
-        element: <PrivateRoute element={<User />} />,
+        element: <User />,
       },
       {
         path: "product",
-        element: <PrivateRoute element={<AdminProductIndex />} />,
+        element: <AdminProductIndex />,
       },
       {
         path: "banner",
-        element: <PrivateRoute element={<Banner />} />,
-      },
-      {
-        path: "orders",
-        element: <PrivateRoute element={<Orders />} />,
+        element: <Banner />,
       },
       {
         path: "coupon",
-        element: <PrivateRoute element={<Coupon />} />,
+        element: <Coupon />,
       },
       {
         path: "event",
-        element: <PrivateRoute element={<Event />} />,
+        element: <Event />,
+      },
+      {
+        path: "order",
+        element: <Orders />,
       },
     ],
   },
   {
     path: "/home",
-    element: <PrivateRoute element={<LayoutIndex />} />,
+    element: <LayoutIndex />,
   },
   {
     path: "/user",
@@ -68,18 +69,21 @@ const privateRoutes = [
             element: <UserProductList />,
           },
           {
-            path: ":id", 
-            element: <UserProductDetail />, 
+            path: ":id",
+            element: <UserProductDetail />,
           },
         ],
       },
       {
         path: "cart",
-        element: <PrivateRoute element={<CartList />} />,
+        element: <CartList />,
+      },
+      {
+        path: "payment",
+        element: <PaymentPage />,
       },
     ],
   },
-
   {
     path: "/userdetail",
     element: <PrivateRoute element={<UserDetail />} />,
@@ -89,4 +93,5 @@ const privateRoutes = [
     element: <PrivateRoute element={<Wishlist />} />,
   },
 ];
+
 export default privateRoutes;

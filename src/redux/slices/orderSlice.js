@@ -18,7 +18,7 @@ const orderSlice = createSlice({
       });
   
       builder.addCase(getOrders.fulfilled, (state, action) => {
-        state.data = action.payload;
+        state.data = action.payload||[];
         state.loading =[SUCCESS];
       });
       builder.addCase(getOrders.rejected, (state, action) => {

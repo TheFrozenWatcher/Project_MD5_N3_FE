@@ -67,10 +67,6 @@ export const editBanner = createAsyncThunk(
   }
 );
 
-export const getOrders = createAsyncThunk("admin/getOrders", async () => {
-  const response = await BASE_URL[GET](`admin/orders`);
-  return response.data;
-});
 
 export const getCoupons = createAsyncThunk("admin/getCoupons", async () => {
   const response = await BASE_URL[GET](`admin/coupon`);
