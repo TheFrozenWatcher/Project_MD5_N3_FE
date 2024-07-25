@@ -17,6 +17,7 @@ import CartList from "../../components/cart/CartList";
 import PaymentPage from "../../pages/payment";
 import Orders from "../../pages/admin/Orders";
 import PaymentPage from "../../pages/payment";
+import PurchaseHistory from "../../pages/payhistory";
 
 const privateRoutes = [
   {
@@ -81,9 +82,12 @@ const privateRoutes = [
       },
       {
         path: "payment",
-        element: <PaymentPage />,
+        element: <PrivateRoute element={<PaymentPage/>}/>,
       },
-
+      {
+        path: "payhistory",
+        element: <PrivateRoute element={<PurchaseHistory/>}/>,
+      }
     ],
   },
   {
