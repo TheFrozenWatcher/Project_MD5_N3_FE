@@ -84,7 +84,6 @@ const privateRoutes = [
         element: <PaymentPage />,
       },
 
-       
     ],
   },
   {
