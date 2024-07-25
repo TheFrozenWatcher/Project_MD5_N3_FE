@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { FAILED, IDLE, PENDING, SUCCESS } from "../../constants/status";
-import {  getOrders } from "../../services/adminService";
+import { getOrders } from "../../services/orderService";
 
 
 const orderSlice = createSlice({

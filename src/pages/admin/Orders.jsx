@@ -8,7 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { useDispatch, useSelector } from "react-redux";
 import { Avatar, Button, TextField } from "@mui/material";
-import { getOrders } from "../../services/adminService";
+import { getOrders } from "../../services/orderService";
 const columns = [
   { id: "id", align: "center", label: "Id", minWidth: 50 },
   { id: "user", align: "center", label: "User", minWidth: 100 },

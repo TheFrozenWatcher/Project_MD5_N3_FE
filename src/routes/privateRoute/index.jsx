@@ -14,6 +14,7 @@ import Wishlist from "../../pages/wishlist";
 import Orders from "../../pages/admin/Orders";
 import Coupon from "../../pages/admin/coupon/Coupon";
 import Event from "../../pages/admin/event/Event";
+import CartList from "../../components/cart/CartList";
 
 const privateRoutes = [
   {
@@ -67,10 +68,14 @@ const privateRoutes = [
             element: <UserProductList />,
           },
           {
-            path: ":id", // Ensure the parameter name matches useParams()
-            element: <UserProductDetail />, // Add UserProductDetail route
+            path: ":id", 
+            element: <UserProductDetail />, 
           },
         ],
+      },
+      {
+        path: "cart",
+        element: <PrivateRoute element={<CartList />} />,
       },
     ],
   },
