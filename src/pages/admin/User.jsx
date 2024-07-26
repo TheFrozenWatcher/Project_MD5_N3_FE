@@ -8,8 +8,8 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { useDispatch, useSelector } from "react-redux";
-
-import { Avatar, Button, TextField } from "@mui/material";
+import Select from "@mui/material/Select";
+import { Avatar, Box, Button, FormControl, InputLabel, MenuItem, TextField } from "@mui/material";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
 import { useDebounce } from "rooks";
 import {
@@ -63,13 +63,9 @@ const columns = [
   },
 ];
 
+export default function User() {
 
-export default function User() {    
-
-
-
-
-
+ 
 
   const dispatch = useDispatch();
   const { data, loading, error } = useSelector((state) => state.user);
@@ -77,6 +73,8 @@ export default function User() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [search, setSearch] = React.useState("");
   const [direction, setDirection] = React.useState("asc");
+  const [sort, setSort] = React.useState("");
+
   React.useEffect(() => {
     dispatch(
       getAllUsers({
@@ -84,9 +82,10 @@ export default function User() {
         size: rowsPerPage,
         search: search,
         direction: direction,
+        sort: sort
       })
     );
-  }, [page, rowsPerPage, search, direction]);
+  }, [page, rowsPerPage, search, direction,sort]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -104,6 +103,8 @@ export default function User() {
           size: rowsPerPage,
           search: search,
           direction: direction,
+          sort: sort
+
         })
       );
     });
@@ -120,20 +121,43 @@ export default function User() {
           size: rowsPerPage,
           search: search,
           direction: direction,
+         sort: sort
+
         })
       );
     });
   };
-  console.log(data);
+
+  const handleChange = (event) => {
+    setSort(event.target.value);
+  };
   return (
     <>
       <div className="flex">
-        <SwapVertIcon
-          onClick={handleSort}
-          fontSize="large"
-          className="ml-[1.5vw] cursor-pointer"
-        />
-          
+        <div className="flex">
+          <SwapVertIcon
+            onClick={handleSort}
+            fontSize="large"
+            className="ml-[1.5vw] cursor-pointer"
+          />
+          <Box sx={{ minWidth: 120 }}>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Sort by</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={sort}
+                label="Sort by"
+                onChange={handleChange}
+              >
+                <MenuItem value="id">Id</MenuItem>
+                <MenuItem value="fullName">Full Name</MenuItem>
+                <MenuItem value="point">Point</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+        </div>
+
         <div className="ml-auto">
           <TextField
             id="outlined-basic"

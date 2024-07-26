@@ -17,12 +17,19 @@ import CartList from "../../components/cart/CartList";
 import PaymentPage from "../../pages/payment";
 import AdminOrderList from "../../pages/orders/Orders";
 import OrderDetailPage from "../../pages/orders/AdminOrderDetail";
+import Orders from "../../pages/admin/Orders";
+import PurchaseHistory from "../../pages/payhistory";
+import Dashboard from "../../pages/admin/dashboard";
 
 const privateRoutes = [
   {
     path: "/admin",
     element: <PrivateRoute element={<AdminIndex />} />,
     children: [
+      {
+        index: true,
+        element: <PrivateRoute element={<Dashboard/>}/>,
+      },
       {
         path: "category",
         element: <AdminCategoryIndex />,
@@ -91,8 +98,15 @@ const privateRoutes = [
       },
       {
         path: "",
-        element: <UserIndex />, // render UserIndex only when URL is exactly /user
+        element: <UserIndex />, 
       },
+        path: "payment",
+        element: <PrivateRoute element={<PaymentPage/>}/>,
+      },
+      {
+        path: "payhistory",
+        element: <PrivateRoute element={<PurchaseHistory/>}/>,
+      }
     ],
   },
   {

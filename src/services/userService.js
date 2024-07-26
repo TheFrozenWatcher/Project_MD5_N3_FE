@@ -6,6 +6,39 @@ import { useNavigate } from "react-router-dom";
 const cookie = new Cookies();
 const token = cookie.get("accessToken");
 
+export const giveFeedback = createAsyncThunk("user/giveFeedback",async ( formFeedBack,thunkAPI)=>{
+   try {
+    const response = await axios.post(
+      "http://localhost:8080/api/v1/user/givefeedback",
+      formFeedBack,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    return response.data;
+   } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+   }
+})
+
+export const getPayHistory = createAsyncThunk("user/getPayHistory",async (thunkAPI) => {
+   try {
+    const response = await axios.get(
+      "http://localhost:8080/api/v1/user/payhistory",
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    return response.data;
+   } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+   }
+})
+
 export const createOrder = createAsyncThunk("user/createOrder", async ({couponCode, code, addressId},thunkAPI) => {
    try {
     const response = await axios.post(
