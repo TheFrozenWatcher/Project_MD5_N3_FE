@@ -6,6 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch } from 'react-redux';
 import { getPayHistory, giveFeedback } from '../../services/userService';
 import Swal from 'sweetalert2';
+import { handleFormatMoney } from '../../ultils/formatData';
  
 
  export default function PurchaseHistory(){
@@ -71,7 +72,7 @@ const dispatch = useDispatch()
               <td className='flex items-center justify-center'>
                 <img src={product.image} alt={product.name} className="product-image" />
               </td>
-              <td>{product.unitPrice}</td>
+              <td>{handleFormatMoney(product.unitPrice)}</td>
               <td>
                 <Button
                   variant="contained"
