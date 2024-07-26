@@ -6,10 +6,6 @@ import { selectProductById, toggleWishlist } from "../../services/productService
 import { addToCart } from "../../services/cartService";
 import Carousel from "../carousel/Carousel";
 
-
-
-
-
 export default function ProductDetailById() {
   const { id } = useParams();
   const dispatch = useDispatch();
