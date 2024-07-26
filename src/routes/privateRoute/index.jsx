@@ -16,14 +16,18 @@ import Event from "../../pages/admin/event/Event";
 import CartList from "../../components/cart/CartList";
 import PaymentPage from "../../pages/payment";
 import Orders from "../../pages/admin/Orders";
-import PaymentPage from "../../pages/payment";
 import PurchaseHistory from "../../pages/payhistory";
+import OrdersStatistic from "../../pages/admin/dashboard/OrderStatistics";
 
 const privateRoutes = [
   {
     path: "/admin",
     element: <PrivateRoute element={<AdminIndex />} />,
     children: [
+      {
+        index: true,
+        element: <PrivateRoute element={<OrdersStatistic/>}/>,
+      },
       {
         path: "category",
         element: <AdminCategoryIndex />,
