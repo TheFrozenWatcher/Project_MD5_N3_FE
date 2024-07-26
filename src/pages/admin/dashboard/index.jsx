@@ -1,10 +1,14 @@
-import React from 'react'
-import OrdersStatistic from './OrderStatistics'
+import React from "react";
+import OrdersStatistic from "./OrderStatistics";
+import SoldStatistic from "./SoldStatistic";
 
-export default function index() {
+export default function Dashboard() {
   return (
     <>
-    <OrdersStatistic/>
+      <div className="flex">
+        <OrdersStatistic />
+        <SoldStatistic />
+      </div>
     </>
-  )
+  );
 }

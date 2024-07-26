@@ -11,11 +11,11 @@ import {
   Legend,
 } from "recharts";
 import { useDebounce } from "rooks";
-import { getOrderStatistics } from "../../../services/adminService";
+import {  getSoldProducts } from "../../../services/adminService";
 import { TextField } from "@mui/material";
 
 
-export default function OrdersStatistic() {
+export default function SoldStatistic() {
   const [data, setData] = useState([]);
   const [year, setYear] = useState(null);
   const handleChangYear = (year) => {
@@ -24,7 +24,7 @@ export default function OrdersStatistic() {
   const setDebounced = useDebounce(handleChangYear, 500);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getOrderStatistics(year)).then((res) => {
+    dispatch(getSoldProducts(year)).then((res) => {
       console.log(res.payload);
       setData(res.payload);
     });
@@ -32,7 +32,7 @@ export default function OrdersStatistic() {
   return (
     <>
     <div className="flex flex-col items-center space-y-8">
-        <h1 className="text-4xl">Thống kê đơn hàng</h1>
+    <h1 className="text-4xl">Thống kê số lượng sản phẩm đã bán </h1>
          <TextField
         id="standard-basic"
         label="Statistical year"
@@ -55,8 +55,7 @@ export default function OrdersStatistic() {
         <YAxis />
         <Tooltip shared={false} trigger="click" />
         <Legend />
-        <Bar  dataKey="successOrder" fill="#90EE90" />
-        <Bar dataKey="cancelOrder" fill="#FF6F6F" />
+        <Bar  dataKey="soldQuantity" fill="#90EE90" />
       </BarChart>
     </div>
     

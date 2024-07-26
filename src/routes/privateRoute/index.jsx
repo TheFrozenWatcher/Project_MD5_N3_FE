@@ -17,7 +17,7 @@ import CartList from "../../components/cart/CartList";
 import PaymentPage from "../../pages/payment";
 import Orders from "../../pages/admin/Orders";
 import PurchaseHistory from "../../pages/payhistory";
-import OrdersStatistic from "../../pages/admin/dashboard/OrderStatistics";
+import Dashboard from "../../pages/admin/dashboard";
 
 const privateRoutes = [
   {
@@ -26,7 +26,7 @@ const privateRoutes = [
     children: [
       {
         index: true,
-        element: <PrivateRoute element={<OrdersStatistic/>}/>,
+        element: <PrivateRoute element={<Dashboard/>}/>,
       },
       {
         path: "category",
