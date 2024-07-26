@@ -5,6 +5,18 @@ import BASE_URL from "../api";
 import axios, { AxiosError } from "axios";
 
 
+export const getOrderStatistics = createAsyncThunk("admin/getOrderStatistics", async (year, thunkAPI) =>{
+  try{
+    const response = await BASE_URL[GET](`admin/orderstatistics`,{
+      params: {year}
+    });
+    return response.data;
+  } catch(err){
+    return thunkAPI.rejectWithValue(err);
+  }
+})
+
+
 export const getAllUsers = createAsyncThunk(
   "users/getAllUsers",
   async ({ page, size, search, direction }) => {
