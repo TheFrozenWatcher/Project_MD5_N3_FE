@@ -15,6 +15,8 @@ import Coupon from "../../pages/admin/coupon/Coupon";
 import Event from "../../pages/admin/event/Event";
 import CartList from "../../components/cart/CartList";
 import PaymentPage from "../../pages/payment";
+import AdminOrderList from "../../pages/orders/Orders";
+import OrderDetailPage from "../../pages/orders/AdminOrderDetail";
 import Orders from "../../pages/admin/Orders";
 import PurchaseHistory from "../../pages/payhistory";
 import Dashboard from "../../pages/admin/dashboard";
@@ -54,17 +56,27 @@ const privateRoutes = [
       },
       {
         path: "order",
-        element: <Orders />,
+        exact: true,
+        children: [
+          {
+            path: "",
+            element: <AdminOrderList />,
+          },{
+            path: ":id",
+            element: <OrderDetailPage />,
+          },
+
+        ],
       },
     ],
   },
   {
     path: "/home",
-    element: <LayoutIndex />,
+    element: <UserIndex />,
   },
   {
     path: "/user",
-    element: <PrivateRoute element={<UserIndex />} />,
+    exact: true,
     children: [
       {
         path: "product",
@@ -85,6 +97,9 @@ const privateRoutes = [
         element: <CartList />,
       },
       {
+        path: "",
+        element: <UserIndex />, 
+      },
         path: "payment",
         element: <PrivateRoute element={<PaymentPage/>}/>,
       },
