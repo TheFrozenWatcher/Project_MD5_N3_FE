@@ -2,12 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { GET } from "../../constants/httpMethod";
 import BASE_URL from "../../api";
+import ProductCard from "./ProductCard";
+import { toggleWishlist } from "../../services/productService";
 
 const RelatedProducts = () => {
   const { id } = useParams();
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const handleToggleWishlist = (productId) => {
+    dispatch(toggleWishlist(productId));
+  };
 
   // Function to fetch related products based on product ID
   const fetchRelatedProducts = async () => {
@@ -43,25 +48,12 @@ const RelatedProducts = () => {
       <h2 className="text-xl font-semibold mb-4">You may also like:</h2>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-1">
         {relatedProducts.map((product) => (
-          <div
+          <ProductCard
             key={product.id}
-            className="border rounded-lg overflow-hidden shadow-md"
-          >
-            <Link to={`/user/product/${product.id}`}>
-              <img
-                src={product.image}
-                alt={product.productName}
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-4">
-                <h3 className="text-lg font-bold mb-2">
-                  {product.productName}
-                </h3>
-                <p className="text-gray-600 mb-2">{product.brandName}</p>
-                <p className="text-gray-500 text-sm">{product.categoryName}</p>
-              </div>
-            </Link>
-          </div>
+            product={product}
+            onToggleWishlist={handleToggleWishlist}
+            isLoading={loading}
+          />
         ))}
       </div>
     </div>

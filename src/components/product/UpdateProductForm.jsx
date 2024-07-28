@@ -99,7 +99,6 @@ const UpdateProductForm = ({ productId, onSubmit, onClose }) => {
     formData.append("imageIdList", currentImageIds);
     console.log("ids: "+currentImageIds);
     imageFileList.forEach((file) => formData.append("imageFileList", file));
-    console.log("New current image Ids:" + currentImageIds);
     dispatch(updateProduct({ productId, formData }));
   };
 
