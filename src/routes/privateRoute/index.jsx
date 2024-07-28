@@ -1,5 +1,4 @@
 import PrivateRoute from "../../features/protectedRouter/PrivateRoute";
-import LayoutIndex from "../../layouts";
 import AdminCategoryIndex from "../../pages/category";
 import AdminIndex from "../../pages/admin";
 import User from "../../pages/admin/User";
@@ -17,9 +16,10 @@ import CartList from "../../components/cart/CartList";
 import PaymentPage from "../../pages/payment";
 import AdminOrderList from "../../pages/orders/Orders";
 import OrderDetailPage from "../../pages/orders/AdminOrderDetail";
-import Orders from "../../pages/admin/Orders";
 import PurchaseHistory from "../../pages/payhistory";
 import Dashboard from "../../pages/admin/dashboard";
+import LayoutIndex from "../../layouts";
+import AdminProductDetailIndex from "../../pages/productDetail";
 
 const privateRoutes = [
   {
@@ -28,7 +28,7 @@ const privateRoutes = [
     children: [
       {
         index: true,
-        element: <PrivateRoute element={<Dashboard/>}/>,
+        element: <PrivateRoute element={<Dashboard />} />,
       },
       {
         path: "category",
@@ -41,6 +41,10 @@ const privateRoutes = [
       {
         path: "product",
         element: <AdminProductIndex />,
+      },
+      {
+        path: "productDetail",
+        element: <AdminProductDetailIndex />,
       },
       {
         path: "banner",
@@ -61,11 +65,11 @@ const privateRoutes = [
           {
             path: "",
             element: <AdminOrderList />,
-          },{
+          },
+          {
             path: ":id",
             element: <OrderDetailPage />,
           },
-
         ],
       },
     ],
@@ -76,6 +80,7 @@ const privateRoutes = [
   },
   {
     path: "/user",
+    element:<LayoutIndex/>,
     exact: true,
     children: [
       {
@@ -98,15 +103,16 @@ const privateRoutes = [
       },
       {
         path: "",
-        element: <UserIndex />, 
+        element: <UserIndex />,
       },
+      {
         path: "payment",
-        element: <PrivateRoute element={<PaymentPage/>}/>,
+        element: <PrivateRoute element={<PaymentPage />} />,
       },
       {
         path: "payhistory",
-        element: <PrivateRoute element={<PurchaseHistory/>}/>,
-      }
+        element: <PrivateRoute element={<PurchaseHistory />} />,
+      },
     ],
   },
   {

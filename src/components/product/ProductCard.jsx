@@ -4,40 +4,45 @@ import { useLocation, Link } from "react-router-dom";
 
 export default function ProductCard({ product, onToggleWishlist, isLoading }) {
   const location = useLocation();
-  const basePath = location.pathname.startsWith('')? '/user' : '';
+  const basePath = location.pathname.startsWith('') ? '/user' : '';
 
   return (
-    <div className="bg-white border-2 border-gray-200 shadow-md rounded-md p-4 hover:shadow-lg transition-shadow duration-300">
-      <div className="flex flex-col items-center mb-4">
-        <img
-          src={product.image}
-          alt={product.productName}
-          className="h-20 w-20 object-cover rounded-full"
-        />
+    <div className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300">
+      <Link to={`${basePath}/product/${product.id}`}>
+        <div className="flex justify-center p-4">
+          <img
+            src={product.image}
+            alt={product.productName}
+            className="h-40 w-40 object-cover"
+          />
+        </div>
+        <div className="p-4 text-center">
+          <h2 className="text-lg font-semibold">{product.productName}</h2>
+          <p className="text-gray-600">{product.brandName}</p>
+          <p className="text-gray-600">{product.categoryName}</p>
+        </div>
+      </Link>
+      <div className="p-4 text-center">
+        <button
+          onClick={() => onToggleWishlist(product.id)}
+          disabled={isLoading === "PENDING"}
+          className={`w-full py-2 px-4 rounded text-white transition-colors duration-300 ${
+            product.onWishlist ? "bg-pink-500" : "bg-blue-500"
+          }`}
+        >
+          {product.onWishlist ? (
+            <div className="flex items-center justify-center space-x-2">
+              <FaHeart />
+              <span>Remove from Wishlist</span>
+            </div>
+          ) : (
+            <div className="flex items-center justify-center space-x-2">
+              <FaRegHeart />
+              <span>Add to Wishlist</span>
+            </div>
+          )}
+        </button>
       </div>
-      <div className="text-center mb-4">
-        <Link to={`${basePath}/product/${product.id}`}>
-          <div className="text-lg font-semibold">{product.productName}</div>
-          <div className="text-sm text-gray-500">{product.brandName}</div>
-          <div className="text-sm text-gray-500">{product.categoryName}</div>
-        </Link>
-      </div>
-      <div className="flex flex-col items-center mb-4">
-      <button
-        onClick={() => onToggleWishlist(product.id)}
-        disabled={isLoading === "PENDING"} 
-        className={`transition-colors duration-300 text-center bg-yellow-300 ${
-          product.onWishlist ? "text-pink-500" : "text-gray-500"
-        }`}
-      >
-        {product.onWishlist ? (
-          <span>Remove from Wishlist <FaHeart className="text-pink-500" /></span>
-        ) : (
-          <span>Add to Wishlist <FaRegHeart className="text-gray-500" /></span>
-        )}
-      </button>
-      </div>
-
     </div>
   );
 }
