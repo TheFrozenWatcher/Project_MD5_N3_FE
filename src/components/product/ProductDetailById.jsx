@@ -1,20 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { FaArrowLeft, FaArrowRight, FaHeart, FaRegHeart } from "react-icons/fa";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { selectProductById, toggleWishlist } from "../../services/productService";
 import { addToCart } from "../../services/cartService";
 import Carousel from "../carousel/Carousel";
+import ReviewSection from "../review/ReviewSection";
+import Pagination from "../pagination/Pagination";
 
 export default function ProductDetailById() {
   const { id } = useParams();
   const dispatch = useDispatch();
-
   const product = useSelector((state) => state.product.currentProduct);
   const loading = useSelector((state) => state.product.loading);
   const error = useSelector((state) => state.product.error);
 
   const [quantities, setQuantities] = useState({});
+  const [selectedDetailId, setSelectedDetailId] = useState(null);
+  const [showReviews, setShowReviews] = useState(false);  // State to toggle reviews
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   useEffect(() => {
     if (id) {
@@ -24,6 +31,8 @@ export default function ProductDetailById() {
 
   const handleToggleWishlist = () => {
     dispatch(toggleWishlist(id));
+    dispatch(selectProductById(id));
+
   };
 
   const handleQuantityChange = (detailId, newQuantity) => {
@@ -40,6 +49,21 @@ export default function ProductDetailById() {
     }));
   };
 
+  const handleDetailClick = (detailId) => {
+    setSelectedDetailId(detailId);
+    setShowReviews(false);  // Reset the show reviews toggle when detail changes
+  };
+
+  const handleToggleReviews = () => {
+    dispatch(selectProductById(id));
+
+    setShowReviews((prev) => !prev);  // Toggle the show reviews state
+  };
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
   if (loading === "PENDING") {
     return <div>Loading...</div>;
   }
@@ -51,6 +75,12 @@ export default function ProductDetailById() {
   if (!product) {
     return <div>Product not found.</div>;
   }
+
+  // Pagination calculations
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedDetails = product.productDetails.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(product.productDetails.length / itemsPerPage);
 
   return (
     <div className="p-6">
@@ -96,10 +126,11 @@ export default function ProductDetailById() {
         <div>
           <div className="font-bold mb-2">Variants:</div>
           <div className="grid grid-cols-1 gap-4">
-            {product.productDetails.map((detail) => (
+            {paginatedDetails.map((detail) => (
               <div
                 key={detail.productDetailId}
-                className="border border-gray-300 p-4 rounded-lg flex"
+                className={`border border-gray-300 p-4 rounded-lg flex ${selectedDetailId === detail.productDetailId ? "bg-gray-100" : ""}`}
+                onClick={() => handleDetailClick(detail.productDetailId)}
               >
                 <img
                   src={detail.image}
@@ -165,7 +196,23 @@ export default function ProductDetailById() {
               </div>
             ))}
           </div>
+          <Pagination
+            totalPages={totalPages}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+          />
         </div>
+      )}
+      {selectedDetailId && (
+        <>
+          <button
+            onClick={handleToggleReviews}
+            className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg"
+          >
+            {showReviews ? "Hide Reviews" : "Show Reviews"}
+          </button>
+          {showReviews && <ReviewSection productDetailId={selectedDetailId} />}
+        </>
       )}
     </div>
   );

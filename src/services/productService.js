@@ -1,19 +1,17 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import BASE_URL from "../api";
 import { DELETE, GET, POST, PUT } from "../constants/httpMethod";
-import { Cookies } from "react-cookie";
+import { accessToken } from "../constants/accessToken";
 
 
 export const fetchAllProducts = createAsyncThunk(
     "product/fetchAllProducts",
     async ({ keyword, page, size, sortBy, sortDirection }) => {
-        const cookie = new Cookies();
-        const token = cookie.get("accessToken");
 
         const response = await BASE_URL[GET]("admin/product", {
             params: { keyword, page, size, sortBy, sortDirection },
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${accessToken}`,
             },
         });
 
@@ -23,14 +21,12 @@ export const fetchAllProducts = createAsyncThunk(
 
 export const fetchAllProductsForUsers = createAsyncThunk(
     "product/fetchAllProducts",
-    async ({ keyword, page, size, sortBy, sortDirection }) => {
-        const cookie = new Cookies();
-        const token = cookie.get("accessToken");
+    async ({ keyword,categoryId, page, size, sortBy, sortDirection }) => {
 
         const response = await BASE_URL[GET]("user/product", {
-            params: { keyword, page, size, sortBy, sortDirection },
+            params: { keyword,categoryId, page, size, sortBy, sortDirection },
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${accessToken}`,
             },
         });
 
@@ -41,7 +37,13 @@ export const fetchAllProductsForUsers = createAsyncThunk(
 export const deleteProductById = createAsyncThunk(
     "product/delete",
     async (id) => {
-        await BASE_URL[DELETE]('admin/product/' + id + '/delete');
+        await BASE_URL[DELETE]('admin/product/' + id + '/delete',
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }
+        );
         return id;
     }
 );
@@ -49,7 +51,11 @@ export const deleteProductById = createAsyncThunk(
 export const fetchProductForm = createAsyncThunk(
     "product/fetchForm",
     async () => {
-        const response = await BASE_URL[GET]('admin/product/add');
+        const response = await BASE_URL[GET]('admin/product/add', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
 
         return response.data;
     }
@@ -67,8 +73,12 @@ export const createProduct = createAsyncThunk(
         formData.append("categoryId", product.categoryId);
         product.imageFileList.forEach((file) => formData.append("imageFileList", file));
         const response = await BASE_URL[POST]('admin/product/add', formData, {
-            headers: { "Content-Type": "multipart/form-data" },
+            headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${accessToken}`,
+            },
         });
+        
         return response.data;
     }
 );
@@ -80,7 +90,11 @@ export const updateProduct = createAsyncThunk(
             const response = await BASE_URL[PUT](
                 `admin/product/${productId}/update`,
                 formData,
-                { headers: { "Content-Type": "multipart/form-data" } }
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data", Authorization: `Bearer ${accessToken}`,
+                    }
+                }
             );
 
             return response.data;
@@ -94,7 +108,11 @@ export const updateProduct = createAsyncThunk(
 export const fetchProductById = createAsyncThunk(
     "product/fetchById",
     async (id) => {
-        const response = await BASE_URL[GET](`admin/product/${id}/update`);
+        const response = await BASE_URL[GET](`admin/product/${id}/update`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            }
+        });
         return response.data;
     }
 );
@@ -103,23 +121,18 @@ export const fetchProductById = createAsyncThunk(
 export const selectProductById = createAsyncThunk(
     "product/getById",
     async (id) => {
-      const cookie = new Cookies();
-      const token = cookie.get("accessToken");
-      const response = await BASE_URL[GET] (`user/product/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log(response.data);
-      return response.data;
+        const response = await BASE_URL[GET](`user/product/${id}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return response.data;
     }
-  );
+);
 
 export const toggleWishlist = createAsyncThunk(
     "product/toggleWishlist",
-    async (productId, thunkAPI) => {
-        const cookie = new Cookies();
-        const token = cookie.get("accessToken");
+    async (productId) => {
 
         try {
             const response = await BASE_URL[POST](
@@ -127,13 +140,13 @@ export const toggleWishlist = createAsyncThunk(
                 {},
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization: `Bearer ${accessToken}`,
                     },
                 }
             );
             return response.data;
         } catch (error) {
-            return thunkAPI.rejectWithValue(error.response.data);
+            return rejectWithValue(error.response.data);
         }
     }
 );

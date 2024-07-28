@@ -83,8 +83,7 @@ export const updateCart = createAsyncThunk(
             },
           }
         );
-  
-        return response.data;
+        return { productDetailId: formData.productDetailId, quantity: formData.quantity };
       } catch (error) {
         console.error("Error updating cart:", error);
         throw error;

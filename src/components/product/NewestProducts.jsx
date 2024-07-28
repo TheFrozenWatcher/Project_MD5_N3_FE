@@ -4,6 +4,7 @@ import BASE_URL from '../../api';
 import { GET } from '../../constants/httpMethod';
 import ProductCard from './ProductCard';
 import {  toggleWishlist } from "../../services/productService";
+import { accessToken } from '../../constants/accessToken';
 
 
 export default function NewestProducts() {
@@ -14,7 +15,11 @@ export default function NewestProducts() {
   useEffect(() => {
     const fetchNewestProducts = async () => {
       try {
-        const response = await BASE_URL[GET]('user/product/newest');
+        const response = await BASE_URL[GET]('user/product/newest',{
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+        });
         setProducts(response.data);
       } catch (error) {
         setError('Error fetching newest products');

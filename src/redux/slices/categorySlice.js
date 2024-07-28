@@ -1,6 +1,6 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 import * as status from "../../constants/status";
-import { createCategory, deleteCategoryById, fetchAllCategories } from "../../services/categoryService";
+import { createCategory, deleteCategoryById, fetchAllCategories, fetchCategoriesForInput } from "../../services/categoryService";
 
 
 const CategorySlice = createSlice({
@@ -9,6 +9,7 @@ const CategorySlice = createSlice({
     loading: status.IDLE,
     data: [],
     error: null,
+    categories:[],
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -42,6 +43,20 @@ const CategorySlice = createSlice({
 
     // Failed to retrieve data
     builder.addCase(fetchAllCategories.rejected, (state, action) => {
+      state.loading = status.FAILED;
+      state.error = action.error.message;
+    });
+    // Fetch categories for input purposes
+    builder.addCase(fetchCategoriesForInput.pending, (state) => {
+      state.loading = status.PENDING;
+    });
+
+    builder.addCase(fetchCategoriesForInput.fulfilled, (state, action) => {
+      state.loading = status.SUCCESS;
+      state.categories = action.payload; // Adjusted to fit your initial code's structure
+    });
+
+    builder.addCase(fetchCategoriesForInput.rejected, (state, action) => {
       state.loading = status.FAILED;
       state.error = action.error.message;
     });
