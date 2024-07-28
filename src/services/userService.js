@@ -13,7 +13,7 @@ export const giveFeedback = createAsyncThunk("user/giveFeedback",async ( formFee
       formFeedBack,
       {
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: "Bearer " + cookie.get("accessToken"),
         },
       }
     );
@@ -29,7 +29,7 @@ export const getPayHistory = createAsyncThunk("user/getPayHistory",async (thunkA
       "http://localhost:8080/api/v1/user/payhistory",
       {
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: "Bearer " + cookie.get("accessToken"),
         },
       }
     );
@@ -47,7 +47,7 @@ export const createOrder = createAsyncThunk("user/createOrder", async ({couponCo
       {
         params: {couponCode, code, addressId},
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: "Bearer " + cookie.get("accessToken"),
         },
       }
     );
@@ -65,7 +65,7 @@ export const getTotalPrice = createAsyncThunk("user/getTotalPrice", async (coupo
       {
         params: {couponCode},
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: "Bearer " + cookie.get("accessToken"),
         },
       }
     );
@@ -81,7 +81,7 @@ export const getUserAddress = createAsyncThunk("user/getUserAddress", async (thu
       "http://localhost:8080/api/v1/user/payment/address",
       {
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: "Bearer " + cookie.get("accessToken"),
         },
       }
     );
@@ -93,41 +93,39 @@ export const getUserAddress = createAsyncThunk("user/getUserAddress", async (thu
 
 
 
-export const editUser = createAsyncThunk("user/edituser", async (userEdit) => {
+export const editUser = createAsyncThunk("user/edituser", async (userEdit,thunkAPI) => {
   try {
     const response = await axios.put(
       "http://localhost:8080/api/v1/user/edit",
       userEdit,
       {
         headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: "Bearer " + token,
+          Authorization: "Bearer " + cookie.get("accessToken"),
         },
       }
     );
     return response.data;
   } catch (err) {
-    console.log(err);
+    return thunkAPI.rejectWithValue(err)
   }
 });
 
 export const updatePassword = createAsyncThunk(
   "user/changepassword",
-  async ({ oldPassword, newPassword, confirmPassword }) => {
+  async ({ oldPassword, newPassword, confirmPassword },thunkAPI) => {
     try {
       const response = await axios.put(
         "http://localhost:8080/api/v1/user/account/change-password",
         { oldPassword, newPassword, confirmPassword },
         {
           headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
+            Authorization: "Bearer " + cookie.get("accessToken"),
           },
         }
       );
       return response.data;
     } catch (err) {
-      alert(err.response.data.content.oldPassword);
+      return thunkAPI.rejectWithValue(err);
     }
   }
 );
@@ -138,7 +136,7 @@ export const getWishlist = createAsyncThunk("user/getWishlist", async () => {
     "http://localhost:8080/api/v1/user/wishlist",
     {
       headers: {
-        Authorization: "Bearer " + token,
+        Authorization: "Bearer " + cookie.get("accessToken"),
       },
     }
   );
@@ -150,7 +148,7 @@ export const deleteWishlist = createAsyncThunk("user/deleteWishlist", async (pro
         `http://localhost:8080/api/v1/user/wishlist/${productId}`,
         {
           headers: {
-            Authorization: "Bearer " + token,
+            Authorization: "Bearer " + cookie.get("accessToken"),
           },
         }
       );

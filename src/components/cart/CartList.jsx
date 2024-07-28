@@ -111,7 +111,7 @@ export default function CartList() {
                       </button>
                     </div>
                   </td>
-                  <td className="p-2 text-center">${item.unitPrice.toFixed(2)}</td>
+                  <td className="p-2 text-center">${item.unitPrice?.toFixed(2)}</td>
                   <td className="p-2 text-center">${(item.unitPrice * item.quantity).toFixed(2)}</td>
                   <td className="p-2 text-center">
                     <button
@@ -135,6 +135,9 @@ export default function CartList() {
             >
               Clear All Items
             </button>
+            <Link to="/user/payment" className="ml-4 px-4 py-2 bg-blue-500 text-white rounded">
+              Order
+            </Link>
           </div>
         </>
       )}

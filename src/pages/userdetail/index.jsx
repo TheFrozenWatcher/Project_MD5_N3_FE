@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { editUser } from "../../services/userService";
 import ModalChangePassword from "./modalChangePassword";
 import Footer from "../../layouts/footer";
+import Header from "../../layouts/header";
 
 export default function UserDetail() {
   const cookie = new Cookies();
@@ -66,51 +67,49 @@ export default function UserDetail() {
   }
   const handleEditUser = (e) => {
     e.preventDefault();
-    const formEdit = new FormData();
-    formEdit.append("fullName", userEdit.FullName);
-    formEdit.append("email", userEdit.Email);
-    formEdit.append("phone", userEdit.Phone);
-    if (avatar) {
-      formEdit.append("avatar", avatar);
-    }
-    console.log(formEdit);
-    console.log(userEdit);
-    dispatch(editUser(formEdit))
-      .then((resp) => {
-        cookie.set('user',resp.payload.content);
-        Swal.fire({
-          title: "Success",
-          text: "Update Successfully",
-          icon: "success"
+    if (confirm("Are you sure you want to edit your account?")) {
+      const formEdit = new FormData();
+      formEdit.append("fullName", userEdit.FullName);
+      formEdit.append("email", userEdit.Email);
+      formEdit.append("phone", userEdit.Phone);
+      if (avatar) {
+        formEdit.append("avatar", avatar);
+      }
+      console.log(formEdit);
+      console.log(userEdit);
+      dispatch(editUser(formEdit))
+        .then((resp) => {
+          console.log(resp);
+          debugger;
+          if (resp.payload?.response?.data?.message == "Error") {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: resp.payload.response.data.content,
+            });
+            return;
+          }
+          cookie.set("user", resp.payload.content);
+          Swal.fire({
+            title: "Success",
+            text: "Update Successfully",
+            icon: "success",
+          });
+        })
+        .catch((err) => {
+          console.log(err);
         });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    }
   };
+
   // console.log(user);
   const [open, setOpen] = React.useState(false);
   const handleToggleModal = () => {
-      setOpen(!open);
-  }
+    setOpen(!open);
+  };
   return (
     <>
-      <header>
-        <nav>
-          <div className="logo">Exclusive</div>
-          <ul>
-            <li>
-              <a href="#">Home</a>
-            </li>
-            <li>
-              <a href="#">Contact</a>
-            </li>
-            <li>
-              <a href="#">About</a>
-            </li>
-          </ul>
-        </nav>
-      </header>
+      <Header />
       <main>
         <div className="signup-container">
           <div className="image-section w-96">
@@ -162,14 +161,14 @@ export default function UserDetail() {
                   type="file"
                 />
               </Button>
-      <Button onClick={handleToggleModal}>Change Password</Button>
+              <Button onClick={handleToggleModal}>Change Password</Button>
               <button type="submit">Update Information</button>
             </form>
           </div>
         </div>
       </main>
       <ModalChangePassword open={open} handleToggleModal={handleToggleModal} />
-      <Footer/>
+      <Footer />
     </>
   );
 }

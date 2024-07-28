@@ -25,7 +25,7 @@ const style = {
 export default function ModalChangePassword({ open, handleToggleModal }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const cookie = new Cookies()
+  const cookie = new Cookies();
   const [changePassword, setChangPassword] = React.useState({
     OldPassword: "",
     NewPassword: "",
@@ -53,29 +53,31 @@ export default function ModalChangePassword({ open, handleToggleModal }) {
       error.NewPassword === "" &&
       error.ConfirmPassword === ""
     ) {
-      dispatch(
-        updatePassword({
-          oldPassword: changePassword.OldPassword,
-          newPassword: changePassword.NewPassword,
-          confirmPassword: changePassword.ConfirmPassword,
-        })
-      )
-      .then((res) => {
-        console.log(res);
-        if (res.payload !== undefined) {
-          handleToggleModal();
-          Swal.fire({
-            title: "Success",
-            text: "Change password successfully",
-            icon: "success"
-          }).then(() => {
-            handleLogOut();
+      if (confirm("Are you sure you want to change your password")) {
+        dispatch(
+          updatePassword({
+            oldPassword: changePassword.OldPassword,
+            newPassword: changePassword.NewPassword,
+            confirmPassword: changePassword.ConfirmPassword,
+          })
+        )
+          .then((res) => {
+            console.log(res);
+            if (res.payload !== undefined) {
+              handleToggleModal();
+              Swal.fire({
+                title: "Success",
+                text: "Change password successfully",
+                icon: "success",
+              }).then(() => {
+                handleLogOut();
+              });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
           });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      }
     } else {
       if (!changePassword.OldPassword) {
         setError((prev) => ({

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -7,27 +8,27 @@ const Footer = () => {
         <div className="footer__top grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
           <div className="footer-top__box">
             <h3 className="text-lg font-semibold mb-4">EXTRAS</h3>
-            <a href="#" className="block hover:text-gray-300">Brands</a>
-            <a href="#" className="block hover:text-gray-300">Gift Certificates</a>
-            <a href="#" className="block hover:text-gray-300">Affiliate</a>
-            <a href="#" className="block hover:text-gray-300">Specials</a>
-            <a href="#" className="block hover:text-gray-300">Site Map</a>
+            <Link to={"/"} className="block hover:text-gray-300">Brands</Link>
+            <Link to={"/"} className="block hover:text-gray-300">Gift Certificates</Link>
+            <Link to={"/"} className="block hover:text-gray-300">Affiliate</Link>
+            <Link to={"/"} className="block hover:text-gray-300">Specials</Link>
+            <Link to={"/"} className="block hover:text-gray-300">Site Map</Link>
           </div>
           <div className="footer-top__box">
             <h3 className="text-lg font-semibold mb-4">INFORMATION</h3>
-            <a href="#" className="block hover:text-gray-300">About Us</a>
-            <a href="#" className="block hover:text-gray-300">Privacy Policy</a>
-            <a href="#" className="block hover:text-gray-300">Terms & Conditions</a>
-            <a href="#" className="block hover:text-gray-300">Contact Us</a>
-            <a href="#" className="block hover:text-gray-300">Site Map</a>
+            <Link to={"/"} className="block hover:text-gray-300">About Us</Link>
+            <Link to={"/"} className="block hover:text-gray-300">Privacy Policy</Link>
+            <Link to={"/"} className="block hover:text-gray-300">Terms & Conditions</Link>
+            <Link to={"/contact"} className="block hover:text-gray-300">Contact Us</Link>
+            <Link to={"/"} className="block hover:text-gray-300">Site Map</Link>
           </div>
           <div className="footer-top__box">
             <h3 className="text-lg font-semibold mb-4">MY ACCOUNT</h3>
-            <a href="#" className="block hover:text-gray-300">My Account</a>
-            <a href="#" className="block hover:text-gray-300">Order History</a>
-            <a href="#" className="block hover:text-gray-300">Wish List</a>
-            <a href="#" className="block hover:text-gray-300">Newsletter</a>
-            <a href="#" className="block hover:text-gray-300">Returns</a>
+            <Link to={"/user/userdetail"} className="block hover:text-gray-300">My Account</Link>
+            <Link to={"/user/payhistory"} className="block hover:text-gray-300">Order History</Link>
+            <Link to={"/wishlist"} className="block hover:text-gray-300">Wish List</Link>
+            <Link to={"/"} className="block hover:text-gray-300">Newsletter</Link>
+            <Link to={"/"} className="block hover:text-gray-300">Returns</Link>
           </div>
           <div className="footer-top__box">
             <h3 className="text-lg font-semibold mb-4">CONTACT US</h3>
@@ -37,7 +38,7 @@ const Footer = () => {
                   <use xlinkHref="./images/sprite.svg#icon-location"></use>
                 </svg>
               </span>
-              42 Dream House, Dreammy street, 7131 Dreamville, USA
+              Ha Noi, Viet Nam
             </div>
             <div className="flex items-center mb-2">
               <span className="mr-2">
@@ -45,7 +46,7 @@ const Footer = () => {
                   <use xlinkHref="./images/sprite.svg#icon-envelop"></use>
                 </svg>
               </span>
-              company@gmail.com
+              liem@gmail.com
             </div>
             <div className="flex items-center mb-2">
               <span className="mr-2">
@@ -53,7 +54,7 @@ const Footer = () => {
                   <use xlinkHref="./images/sprite.svg#icon-phone"></use>
                 </svg>
               </span>
-              456-456-4512
+              0943xxxxxx
             </div>
             <div className="flex items-center">
               <span className="mr-2">
@@ -61,7 +62,7 @@ const Footer = () => {
                   <use xlinkHref="./images/sprite.svg#icon-paperplane"></use>
                 </svg>
               </span>
-              Dream City, USA
+              Ha Noi, Viet Nam
             </div>
           </div>
         </div>

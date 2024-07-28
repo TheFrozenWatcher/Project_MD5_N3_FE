@@ -17,18 +17,19 @@ import CartList from "../../components/cart/CartList";
 import PaymentPage from "../../pages/payment";
 import AdminOrderList from "../../pages/orders/Orders";
 import OrderDetailPage from "../../pages/orders/AdminOrderDetail";
-import Orders from "../../pages/admin/Orders";
 import PurchaseHistory from "../../pages/payhistory";
 import Dashboard from "../../pages/admin/dashboard";
+import AdminRoute from "../../features/protectedRouter/AdminRouter";
+import NotFound from "../../pages/errors/404";
 
 const privateRoutes = [
   {
     path: "/admin",
-    element: <PrivateRoute element={<AdminIndex />} />,
+    element: <AdminRoute element={<AdminIndex />} />,
     children: [
       {
         index: true,
-        element: <PrivateRoute element={<Dashboard/>}/>,
+        element: <PrivateRoute element={<Dashboard />} />,
       },
       {
         path: "category",
@@ -61,11 +62,11 @@ const privateRoutes = [
           {
             path: "",
             element: <AdminOrderList />,
-          },{
+          },
+          {
             path: ":id",
             element: <OrderDetailPage />,
           },
-
         ],
       },
     ],
@@ -98,25 +99,31 @@ const privateRoutes = [
       },
       {
         path: "",
-        element: <UserIndex />, 
+        element: <UserIndex />,
       },
+      {
         path: "payment",
-        element: <PrivateRoute element={<PaymentPage/>}/>,
+        element: <PrivateRoute element={<PaymentPage />} />,
       },
       {
         path: "payhistory",
-        element: <PrivateRoute element={<PurchaseHistory/>}/>,
-      }
+        element: <PrivateRoute element={<PurchaseHistory />} />,
+      },
+      {
+        path: "userdetail",
+        element: <PrivateRoute element={<UserDetail />} />,
+      },
     ],
   },
-  {
-    path: "/userdetail",
-    element: <PrivateRoute element={<UserDetail />} />,
-  },
+
   {
     path: "/wishlist",
     element: <PrivateRoute element={<Wishlist />} />,
   },
+  {
+    path: "*",
+    element: <NotFound/>
+  }
 ];
 
 export default privateRoutes;

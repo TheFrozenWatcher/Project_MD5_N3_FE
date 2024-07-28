@@ -1,0 +1,21 @@
+.banner-carousel-container {
+    width: 100%;
+    height: calc(100vh / 2);
+  
+    .swiper {
+      width: 100%;
+      height: 100%;
+    }
+  
+    .banner-slide {
+      width: 100%;
+      height: 100%;
+  
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+  }
+  

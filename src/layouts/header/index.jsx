@@ -3,13 +3,14 @@ import { Cookies } from "react-cookie";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaSearch, FaShoppingCart } from "react-icons/fa";
-import { Button } from "@mui/material";
+import { Avatar, Button } from "@mui/material";
 import { GET } from "../../constants/httpMethod";
 import BASE_URL from "../../api";
 
 const Header = () => {
   const cookie = new Cookies();
   const isLogin = cookie.get("isLogin");
+  const user = cookie.get("user");
   const navigate = useNavigate();
   const [cartCount, setCartCount] = useState(0);
 
@@ -68,12 +69,7 @@ const Header = () => {
                 <Link to={`/user/product`}> Products</Link>
               </li>
               <li className="nav__item">
-                <Link to={`/user/blog`}>Blog</Link>
-              </li>
-              <li className="nav__item">
-                <a href="#" className="hover:text-black hover:font-semibold">
-                  Contact
-                </a>
+                <Link to={"/contact"}> Contact</Link>
               </li>
             </ul>
           </div>
@@ -100,9 +96,15 @@ const Header = () => {
               </Link>
             </div>
             {isLogin ? (
+              <>
+              <Link to={"/user/userdetail"}>
+              <Avatar  src={user?.avatar}/>
+              </Link>
               <Button onClick={handleLogOut} variant="contained">
                 Log Out
               </Button>
+              </>
+              
             ) : (
               <Button onClick={handleLogIn} variant="contained">
                 Log In
