@@ -22,6 +22,7 @@ export default function MostSoldProducts() {
         setProducts(response.data);
       } catch (error) {
         setError("Error fetching most sold products");
+        console.log(error);
       } finally {
         setLoading(false);
       }

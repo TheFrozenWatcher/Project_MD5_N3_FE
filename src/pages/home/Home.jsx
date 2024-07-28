@@ -4,10 +4,14 @@ import Footer from "../../layouts/footer";
 import Header from "../../layouts/header";
 import MostSoldProducts from "../../components/product/MostSoldProducts";
 import NewestProducts from "../../components/product/NewestProducts";
+
+import BannerCarousel from "../../components/banner";
+
 import HomeCarousel from "../../components/carousel/HomeCarousel";
 import { fetchAllMessages, setMessageStatus, fetchUnreadMessageCount } from "../../services/messageService";
 import Messages from "../../components/message/MessageList";
 import AddressManager from "../../components/address/AddressManager"; // Import AddressManager
+
 
 export default function UserIndex() {
   const [showMessages, setShowMessages] = useState(false);
@@ -36,6 +40,10 @@ export default function UserIndex() {
   return (
     <>
       <Header />
+
+      <BannerCarousel/>
+      
+
       <div className="fixed bottom-5 right-5 z-50">
         <button
           onClick={toggleMessages}
@@ -52,6 +60,7 @@ export default function UserIndex() {
       {showMessages && (
         <div className="fixed bottom-20 right-5 w-96 h-96 bg-white shadow-lg rounded-lg overflow-auto">
           <Messages />
+
         </div>
       )}
       <div className="fixed bottom-5 left-5 z-50">

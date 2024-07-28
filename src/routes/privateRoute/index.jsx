@@ -18,13 +18,18 @@ import AdminOrderList from "../../pages/orders/Orders";
 import OrderDetailPage from "../../pages/orders/AdminOrderDetail";
 import PurchaseHistory from "../../pages/payhistory";
 import Dashboard from "../../pages/admin/dashboard";
+
+import AdminRoute from "../../features/protectedRouter/AdminRouter";
+import NotFound from "../../pages/errors/404";
+
 import LayoutIndex from "../../layouts";
 import AdminProductDetailIndex from "../../pages/productDetail";
+
 
 const privateRoutes = [
   {
     path: "/admin",
-    element: <PrivateRoute element={<AdminIndex />} />,
+    element: <AdminRoute element={<AdminIndex />} />,
     children: [
       {
         index: true,
@@ -113,16 +118,21 @@ const privateRoutes = [
         path: "payhistory",
         element: <PrivateRoute element={<PurchaseHistory />} />,
       },
+      {
+        path: "userdetail",
+        element: <PrivateRoute element={<UserDetail />} />,
+      },
     ],
   },
-  {
-    path: "/userdetail",
-    element: <PrivateRoute element={<UserDetail />} />,
-  },
+
   {
     path: "/wishlist",
     element: <PrivateRoute element={<Wishlist />} />,
   },
+  {
+    path: "*",
+    element: <NotFound/>
+  }
 ];
 
 export default privateRoutes;

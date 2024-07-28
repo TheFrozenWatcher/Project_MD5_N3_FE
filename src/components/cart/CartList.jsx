@@ -119,6 +119,7 @@ export default function CartList() {
                       </button>
                     </div>
                   </td>
+
                   <td className="p-2 text-right">${item.unitPrice}</td>
                   <td className="p-2 text-right">${item.unitPrice * item.quantity}</td>
                   <td className="p-2 text-center">
@@ -140,15 +141,15 @@ export default function CartList() {
             >
               Clear All Items
             </button>
+
+            <Link to="/user/payment" className="ml-4 px-4 py-2 bg-blue-500 text-white rounded">
+              Order
+             </Link>
             <h2 className="text-xl font-bold">
               Total Cart Price: ${calculateTotalPrice(cartItems)}
             </h2>
-            <Link
-              to="/user/payment"
-              className="px-4 py-2 bg-blue-500 text-white rounded"
-            >
-              Proceed to Payment
-            </Link>
+
+        
           </div>
         </>
       )}
