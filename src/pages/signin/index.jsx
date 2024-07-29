@@ -76,6 +76,7 @@ export default function CreateAccount() {
           }).then(() => navigate("/login"))
         )
         .catch((err) =>
+          // console.log(err)
           Swal.fire({
             icon: "error",
             title: "Sign up Failed",
