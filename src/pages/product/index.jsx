@@ -9,6 +9,7 @@ import {
   fetchAllProducts,
   updateProduct,
 } from "../../services/productService";
+import { Link, Navigate } from "react-router-dom";
 
 export default function AdminProductIndex() {
   const dispatch = useDispatch();
@@ -200,7 +201,7 @@ export default function AdminProductIndex() {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Status
               </th>
-              <th colSpan={2} className="px-6 py-3 center text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th colSpan={3} className="px-6 py-3 center text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Actions
               </th>
             </tr>
@@ -237,6 +238,15 @@ export default function AdminProductIndex() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {product.status ? "On display" : "Not displayed"}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <Link to= {`user/product/${product.id}`}>
+                    <button
+                      className="text-green-600 hover:text-red-900"
+                    >
+                      View page
+                    </button>
+                    </Link>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <button

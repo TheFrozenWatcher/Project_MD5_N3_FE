@@ -40,7 +40,9 @@ const privateRoutes = [
       },
       {
         path: "product",
-        element: <AdminProductIndex />,
+        children: [{ path: "", element: <AdminProductIndex /> },
+          { path: "user/product/:id", element: <UserProductDetail /> },
+        ],
       },
       {
         path: "productDetail",
@@ -80,7 +82,7 @@ const privateRoutes = [
   },
   {
     path: "/user",
-    element:<LayoutIndex/>,
+    element: <LayoutIndex />,
     exact: true,
     children: [
       {

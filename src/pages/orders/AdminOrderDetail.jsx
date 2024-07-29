@@ -95,8 +95,7 @@ const OrderDetailPage = () => {
           <div className="mb-2">
             <strong className="text-gray-600">Address:</strong>
             <div>
-              {order.streetAddress}, {order.ward}, {order.district},{" "}
-              {order.province}
+              {order.fullAddress}
             </div>
           </div>
         </div>
@@ -112,10 +111,11 @@ const OrderDetailPage = () => {
           </div>
           <div className="mb-2">
             <strong className="text-gray-600">User:</strong>{" "}
-            {order.user ? `User ID: ${order.user.id}` : "No user assigned"}
+            {order.user ? `User: ${order.username}` : "No user assigned"}
           </div>
         </div>
         <div className="flex justify-end col-span-full">
+          
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded"
             onClick={() => setIsModalOpen(true)}

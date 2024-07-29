@@ -72,7 +72,6 @@ export default function ReviewSection({ productDetailId }) {
 
   const handleToggleVisibility = async (reviewId) => {
     await dispatch(toggleReview(reviewId));
-
     dispatch(fetchAllReviewsByProductDetailId(productDetailId)); // Fetch reviews again
   };
 
@@ -130,7 +129,7 @@ export default function ReviewSection({ productDetailId }) {
             <div
               key={review.id}
               className={`border border-gray-300 p-2 rounded mb-2 ${
-                isHidden ? "opacity-50" : ""
+                isHidden && !review.madeByCurrentUser ? "opacity-50" : ""
               }`}
             >
               <div className="flex items-center mb-2">
@@ -157,22 +156,86 @@ export default function ReviewSection({ productDetailId }) {
                   </p>
                 </div>
               </div>
+              {review.madeByCurrentUser ? (
+                <div>
+                  {editingReviewId === review.id ? (
+                    <form
+                      onSubmit={(e) => handleEditSubmit(e, review.id)}
+                      className="mb-4"
+                    >
+                      <textarea
+                        value={editingReviewText}
+                        onChange={(e) => setEditingReviewText(e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded mb-2"
+                      />
+                      <div className="flex items-center mb-2">
+                        <span>Rating:</span>
+                        {[...Array(5)].map((_, i) => (
+                          <FaStar
+                            key={i}
+                            className={`cursor-pointer ${
+                              i < editingReviewRating
+                                ? "text-yellow-500"
+                                : "text-gray-300"
+                            }`}
+                            onClick={() => setEditingReviewRating(i + 1)}
+                          />
+                        ))}
+                      </div>
+                      <button
+                        type="submit"
+                        className="bg-green-500 text-white py-1 px-2 rounded mr-2"
+                      >
+                        Save
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setEditingReviewId(null)}
+                        className="bg-gray-500 text-white py-1 px-2 rounded"
+                      >
+                        Cancel
+                      </button>
+                    </form>
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => {
+                          setEditingReviewId(review.id);
+                          setEditingReviewText(review.comments);
+                          setEditingReviewRating(review.rating);
+                        }}
+                        className="bg-blue-500 text-white py-1 px-2 rounded mr-2"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(review.id)}
+                        className="bg-red-500 text-white py-1 px-2 rounded mr-2"
+                      >
+                        Delete
+                      </button>
+                    </>
+                  )}
+                </div>
+              ) : null}
+
               {review.moderator && (
-                  <>
-                    <button
-                      onClick={() => handleToggleVisibility(review.id)}
-                      className="bg-purple-500 text-white py-1 px-2 rounded mr-2"
-                    >
-                      {review.status ? "Unhide" : "Hide"}
-                    </button>
-                    <button
-                      onClick={() => handleDelete(review.id)}
-                      className="bg-red-500 text-white py-1 px-2 rounded mr-2"
-                    >
-                      Delete
-                    </button>
-                  </>
-                )}            </div>
+                <>
+                  <button
+                    onClick={() => handleToggleVisibility(review.id)}
+                    className="bg-purple-500 text-white py-1 px-2 rounded mr-2"
+                  >
+                    {review.status ? "Unhide" : "Hide"}
+                  </button>
+                  <button
+                    onClick={() => handleDelete(review.id)}
+                    className="bg-red-500 text-white py-1 px-2 rounded mr-2"
+                  >
+                    Delete
+                  </button>
+                </>
+              )}
+            </div>
           );
         })
       )}

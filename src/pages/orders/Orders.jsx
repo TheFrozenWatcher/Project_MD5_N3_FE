@@ -63,12 +63,7 @@ const AdminOrderList = () => {
                   View Details
                 </button>
                 </Link>
-                <button
-                  onClick={() => handleChangeStatus(order.id)}
-                  className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-                >
-                  Change Status
-                </button>
+                
               </td>
             </tr>
           ))}
