@@ -4,7 +4,7 @@ import "./AdminMenu.scss";
 import CategoryIcon from "@mui/icons-material/Category";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import PersonIcon from '@mui/icons-material/Person';
-import { LocalShipping } from "@mui/icons-material";
+import { Book, LocalShipping, Phone } from "@mui/icons-material";
 import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -37,19 +37,23 @@ export default function AdminMenu() {
           <DashboardIcon />
             <span>Tổng quan</span>
           </NavLink>
-          <NavLink className="link" to="/">
+          <NavLink className="link" to="/admin/category">
             <CategoryIcon />
             <span>Quản lý danh mục</span>
           </NavLink>
-          <NavLink className="link" to="/">
-            <InventoryIcon />
+          <NavLink className="link" to="/admin/product">
+            <Book />
             <span> Quản lý sản phẩm</span>
+          </NavLink>
+          <NavLink className="link" to="/admin/productDetail">
+            <InventoryIcon />
+            <span> Quản lý kho</span>
           </NavLink>
           <NavLink className="link" to="/admin/user">
           <PersonIcon/>
             <span> Quản lý người dùng</span>
           </NavLink>
-          <NavLink className="link" to="/">
+          <NavLink className="link" to="/admin/order">
           <LocalShipping/>
             <span> Quản lý đơn hàng</span>
           </NavLink>

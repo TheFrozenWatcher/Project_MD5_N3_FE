@@ -11,6 +11,9 @@ import couponSlice from "./couponSlice";
 import eventSlice from "./eventSlice";
 import cartSlice from "./cartSlice";
 import orderSlice from "./orderSlice";
+import reviewSlice from "./reviewSlice";
+import productDetailSlice from "./productDetailSlice";
+import messageSlice from "./messageSlice";
 
 const reducers = combineReducers({
   auth: authSlice,
@@ -24,6 +27,9 @@ const reducers = combineReducers({
   event: eventSlice,
   cart:cartSlice,
   order:orderSlice,
+  review:reviewSlice,
+  productDetail:productDetailSlice,
+  message:messageSlice,
 });
 
 export default reducers;

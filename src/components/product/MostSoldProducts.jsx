@@ -4,8 +4,10 @@ import { toggleWishlist } from "../../services/productService";
 import ProductCard from "./ProductCard";
 import BASE_URL from "../../api";
 import { GET } from "../../constants/httpMethod";
+import { accessToken } from "../../constants/accessToken";
 
 export default function MostSoldProducts() {
+  const dispatch=useDispatch();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -13,7 +15,10 @@ export default function MostSoldProducts() {
   useEffect(() => {
     const fetchMostSoldProducts = async () => {
       try {
-        const response = await BASE_URL[GET]("user/product/mostSold");
+        const response = await BASE_URL[GET]("user/product/mostSold",{
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },});
         setProducts(response.data);
       } catch (error) {
         setError("Error fetching most sold products");

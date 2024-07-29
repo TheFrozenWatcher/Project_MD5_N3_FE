@@ -1,21 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import NewProductForm from "../../components/product/NewProductForm";
-import UpdateProductForm from "../../components/product/UpdateProductForm";
-import DeleteProductForm from "../../components/product/DeleteProductForm";
 import {
-  createProduct,
-  deleteProductById,
-  fetchAllProducts,
-  updateProduct,
-} from "../../services/productService";
+  createProductDetail,
+  deleteProductDetailById,
+  fetchAllProductDetails,
+  fetchProductDetailById,
+  updateProductDetail,
+} from "../../services/productDetailService";
+import NewProductDetailForm from "../productDetail/NewProductDetailForm";
+import UpdateProductDetailForm from "../productDetail/UpdateProductDetailForm";
+import DeleteProductDetailForm from "../productDetail/DeleteProductDetailForm";
+import Pagination from "../../components/pagination/Pagination";
 
-export default function AdminProductIndex() {
+export default function AdminProductDetailIndex() {
   const dispatch = useDispatch();
-  const { data: products, loading, error, totalPages } = useSelector(
-    (state) => state.product
-  );
-  
+  const {
+    data: productDetails,
+    loading,
+    error,
+    totalPages,
+  } = useSelector((state) => state.productDetail);
+
   const [showForm, setShowForm] = useState(false);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -30,7 +35,13 @@ export default function AdminProductIndex() {
 
   useEffect(() => {
     dispatch(
-      fetchAllProducts({ keyword, page: currentPage, size: pageSize, sortBy, sortDirection })
+      fetchAllProductDetails({
+        keyword,
+        page: currentPage,
+        size: pageSize,
+        sortBy,
+        sortDirection,
+      })
     );
   }, [dispatch, keyword, currentPage, pageSize, sortBy, sortDirection]);
 
@@ -40,6 +51,8 @@ export default function AdminProductIndex() {
 
   const toggleUpdateForm = (id) => {
     setIdToUpdate(id);
+    console.log("idToUpdate " + id);
+    fetchProductDetailById(id);
     setShowUpdateForm(!showUpdateForm);
   };
 
@@ -52,19 +65,49 @@ export default function AdminProductIndex() {
     setShowDeleteModal(false);
   };
 
-  const handleDelete = () => {
-    dispatch(deleteProductById(idToDelete));
-    setShowDeleteModal(false);
-  };
-
-  const handleCreateProduct = (productData) => {
-    dispatch(createProduct(productData));
+  const handleCreateProductDetail = (productDetailData) => {
+    dispatch(createProductDetail(productDetailData));
+    dispatch(
+      fetchAllProductDetails({
+        keyword,
+        page: currentPage,
+        size: pageSize,
+        sortBy,
+        sortDirection,
+      })
+    );
     setShowForm(false);
   };
-
-  const handleUpdateProduct = (productData) => {
-    dispatch(updateProduct({ productId: idToUpdate, formData: productData }));
+  const handleUpdateProductDetail = (productDetailData) => {
+    dispatch(
+      updateProductDetail({
+        detailId: idToUpdate,
+        productDetail: productDetailData,
+      })
+    );
+    dispatch(
+      fetchAllProductDetails({
+        keyword,
+        page: currentPage,
+        size: pageSize,
+        sortBy,
+        sortDirection,
+      })
+    );
     setShowUpdateForm(false);
+  };
+  const handleDelete = () => {
+    dispatch(deleteProductDetailById(idToDelete));
+    dispatch(
+      fetchAllProductDetails({
+        keyword,
+        page: currentPage,
+        size: pageSize,
+        sortBy,
+        sortDirection,
+      })
+    );
+    setShowDeleteModal(false);
   };
 
   const handleSearchChange = (e) => {
@@ -91,7 +134,7 @@ export default function AdminProductIndex() {
           onClick={toggleForm}
           className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
         >
-          Add New Product
+          Add New Product Detail
         </button>
         <div className="flex space-x-2">
           <input
@@ -107,7 +150,7 @@ export default function AdminProductIndex() {
             className="px-3 py-2 border border-gray-300 rounded"
           >
             <option value="id">ID</option>
-            <option value="productName">Name</option>
+            <option value="productDetailName">Name</option>
             <option value="createdAt">Created at</option>
             <option value="updatedAt">Updated at</option>
           </select>
@@ -131,9 +174,9 @@ export default function AdminProductIndex() {
             >
               &times;
             </span>
-            <h2 className="text-xl mb-4">Add New Product</h2>
-            <NewProductForm
-              onSubmit={handleCreateProduct}
+            <h2 className="text-xl mb-4">Add New Product Detail</h2>
+            <NewProductDetailForm
+              onSubmit={handleCreateProductDetail}
               onClose={toggleForm}
             />
           </div>
@@ -149,10 +192,12 @@ export default function AdminProductIndex() {
             >
               &times;
             </span>
-            <h2 className="text-xl mb-4">Update Product</h2>
-            <UpdateProductForm
-              productId={idToUpdate}
-              onSubmit={handleUpdateProduct}
+            <h2 className="text-xl mb-4">Update Product Detail</h2>
+            <UpdateProductDetailForm
+              productDetailId={idToUpdate}
+              onSubmit={(productDetailData) =>
+                handleUpdateProductDetail(productDetailData)
+              }
               onClose={() => setShowUpdateForm(false)}
             />
           </div>
@@ -169,8 +214,8 @@ export default function AdminProductIndex() {
               &times;
             </span>
             <h2 className="text-xl mb-4">Confirm Delete</h2>
-            <DeleteProductForm
-              productId={idToDelete}
+            <DeleteProductDetailForm
+              productDetailId={idToDelete}
               onDelete={handleDelete}
               onClose={handleCloseModal}
             />
@@ -192,15 +237,21 @@ export default function AdminProductIndex() {
                 Name
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Brand{" "}
+                Color
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Category
+                Stock
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Unit Price
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Status
               </th>
-              <th colSpan={2} className="px-6 py-3 center text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th
+                colSpan={2}
+                className="px-6 py-3 center text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
                 Actions
               </th>
             </tr>
@@ -209,47 +260,52 @@ export default function AdminProductIndex() {
             {loading === "loading" ? (
               <tr>
                 <td
-                  colSpan="7"
+                  colSpan="8"
                   className="px-6 py-4 text-center text-sm text-gray-500"
                 >
-                  Loading products...
+                  Loading product details...
                 </td>
               </tr>
-            ) : products.length > 0 ? (
-              products.map((product, index) => (
-                <tr key={product.id}>
-                  <td className="px-6 py-4 whitespace-nowrap">{index + 1+(currentPage-1)*pageSize}</td>
+            ) : productDetails.length > 0 ? (
+              productDetails.map((detail, index) => (
+                <tr key={detail.productDetailId}>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {index + (currentPage - 1) * pageSize + 1}
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <img
-                      src={product.image}
-                      alt={product.productName}
+                      src={detail.image}
+                      alt={detail.productDetailName}
                       className="h-10 w-10 object-cover rounded-full"
                     />
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {product.productName}
+                    {detail.productDetailName}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {product.brandName}
+                    {detail.color}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {product.categoryName}
+                    {detail.stock}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {product.status ? "On display" : "Not displayed"}
+                    {detail.unitPrice}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {detail.status ? "On sale" : "Not on sale"}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <button
-                      onClick={() => toggleUpdateForm(product.id)}
-                      className="text-blue-600 hover:text-blue-900"
+                      onClick={() => toggleUpdateForm(detail.productDetailId)}
+                      className="px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600"
                     >
                       Update
                     </button>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <button
-                      onClick={() => toggleDeleteModal(product.id)}
-                      className="text-red-600 hover:text-red-900"
+                      onClick={() => toggleDeleteModal(detail.productDetailId)}
+                      className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
                     >
                       Delete
                     </button>
@@ -259,37 +315,21 @@ export default function AdminProductIndex() {
             ) : (
               <tr>
                 <td
-                  colSpan="7"
+                  colSpan="8"
                   className="px-6 py-4 text-center text-sm text-gray-500"
                 >
-                  No products found
+                  No product details found.
                 </td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
-
-      {/* Pagination controls */}
-      <div className="flex justify-between mt-4">
-        <button
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage <= 1}
-          className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
-        >
-          Previous
-        </button>
-        <span className="text-gray-700">
-          Page {currentPage} of {totalPages}
-        </span>
-        <button
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage >= totalPages}
-          className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
-        >
-          Next
-        </button>
-      </div>
+      <Pagination
+        totalPages={totalPages}
+        currentPage={currentPage}
+        onPageChange={(newPage) => setCurrentPage(newPage)}
+      />
     </div>
   );
 }

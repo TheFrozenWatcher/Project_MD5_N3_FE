@@ -1,5 +1,4 @@
 import PrivateRoute from "../../features/protectedRouter/PrivateRoute";
-import LayoutIndex from "../../layouts";
 import AdminCategoryIndex from "../../pages/category";
 import AdminIndex from "../../pages/admin";
 import User from "../../pages/admin/User";
@@ -19,8 +18,13 @@ import AdminOrderList from "../../pages/orders/Orders";
 import OrderDetailPage from "../../pages/orders/AdminOrderDetail";
 import PurchaseHistory from "../../pages/payhistory";
 import Dashboard from "../../pages/admin/dashboard";
+
 import AdminRoute from "../../features/protectedRouter/AdminRouter";
 import NotFound from "../../pages/errors/404";
+
+import LayoutIndex from "../../layouts";
+import AdminProductDetailIndex from "../../pages/productDetail";
+
 
 const privateRoutes = [
   {
@@ -42,6 +46,10 @@ const privateRoutes = [
       {
         path: "product",
         element: <AdminProductIndex />,
+      },
+      {
+        path: "productDetail",
+        element: <AdminProductDetailIndex />,
       },
       {
         path: "banner",
@@ -77,6 +85,7 @@ const privateRoutes = [
   },
   {
     path: "/user",
+    element:<LayoutIndex/>,
     exact: true,
     children: [
       {
